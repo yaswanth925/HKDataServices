@@ -1,0 +1,6 @@
+@HKDataServices_HostAddress = http://localhost:5160
+
+GET {{HKDataServices_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
