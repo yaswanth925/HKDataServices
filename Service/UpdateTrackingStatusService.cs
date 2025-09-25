@@ -4,8 +4,9 @@ using HKDataServices.Repository;
 
 namespace HKDataServices.Service;
 
-public class UpdateTrackingStatusService(IUpdateTrackingStatusRepository repo) : IUpdateTrackingStatusService
-{
+ public class UpdateTrackingStatusService(IUpdateTrackingStatusRepository repo) : IUpdateTrackingStatusService
+ {
+
     public async Task<UpdateTrackingStatus> CreateAsync(UpdateTrackingStatusFormDto dto, CancellationToken ct = default)
     {
         if (dto is null) throw new ArgumentNullException(nameof(dto));
@@ -47,11 +48,12 @@ public class UpdateTrackingStatusService(IUpdateTrackingStatusRepository repo) :
     }
     public Task<UpdateTrackingStatus?> GetByIDAsync(Guid id, CancellationToken ct = default)
     {
-
-        throw new ArgumentException("ID is required.", nameof(id));
+        if (id == Guid.Empty)
+            return Task.FromResult<UpdateTrackingStatus?>(null);
 
         return repo.GetByIDAsync(id, ct);
-     }
+    }
+
 
     public Task<List<UpdateTrackingStatus>> GetByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken ct = default)
     {
@@ -70,4 +72,4 @@ public class UpdateTrackingStatusService(IUpdateTrackingStatusRepository repo) :
     {
         throw new NotImplementedException();
     }
-}
+ }

@@ -32,12 +32,15 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
         return Ok(response);
     }
 
-    [HttpGet("{awbNumber}")]
+    [HttpGet("by-awb/{awbNumber}")]
     [ProducesResponseType(typeof(UpdateTrackingStatusResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetByAwbNumber(string awbNumber, CancellationToken ct)
+    public async Task<IActionResult> GetByAwbNumber([FromRoute] string awbNumber, CancellationToken ct)
     {
-        var entity = await service.GetByAwbNumberAsync(awbNumber, ct);
+        if (string.IsNullOrWhiteSpace(awbNumber))
+            return BadRequest("awbNumber is required.");
+
+        var entity = await _service.GetByAwbNumberAsync(awbNumber, ct);
         if (entity is null) return NotFound();
 
         var response = new UpdateTrackingStatusResponseDto
@@ -46,7 +49,7 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
             AWBNumber = entity.AWBNumber,
             StatusType = entity.StatusType,
             FileName = entity.FileName,
-            FileData = entity.FileData,   
+            FileData = entity.FileData,
             Remarks = entity.Remarks,
             Createdby = entity.Createdby,
             Created = entity.Created,
@@ -57,7 +60,8 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
         return Ok(response);
     }
 
-    [HttpGet("{id}")]
+
+    [HttpGet("by-id/{id:guid}")]
     [ProducesResponseType(typeof(UpdateTrackingStatusResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByID(Guid id, CancellationToken ct)

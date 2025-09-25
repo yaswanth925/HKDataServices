@@ -32,6 +32,8 @@ public class UpdateTrackingStatusRepository(ApplicationDbContext db) : IUpdateTr
     }
     public async Task<UpdateTrackingStatus?> GetByIDAsync(Guid id, CancellationToken ct = default)
     {
+        if (id == Guid.Empty) return null;
+
         return await db.UpdateTrackingStatuses
             .AsNoTracking()
             .Where(x => x.ID == id)
