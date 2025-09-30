@@ -1,19 +1,20 @@
-using FluentValidation;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using HKDataServices.Controllers.API;
 using HKDataServices.Model;
 using HKDataServices.Repository;
 using HKDataServices.Service;
+using HKDataServices.Settings;
 using HKDataServices.Validators;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-
 
 static string BuildConnectionString(IConfiguration config)
 {
@@ -58,31 +59,78 @@ builder.Services.AddScoped<IUpdateTrackingStatusRepository, UpdateTrackingStatus
 builder.Services.AddScoped<IUpdateTrackingStatusService, UpdateTrackingStatusService>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IPasswordHasher<Users>, PasswordHasher<Users>>();
 
 // ---------------- FluentValidation ----------------
-// Registers all validators in the assembly (e.g., UsersFormDtoValidator)
-builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
-
-// This will scan assembly for validators like UsersFormDtoValidator
 builder.Services.AddValidatorsFromAssemblyContaining<UsersFormDtoValidator>();
-
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateTrackingStatusFormDtoValidator>();
-
-// Example: If you want custom messages globally
 ValidatorOptions.Global.LanguageManager.Enabled = true;
 ValidatorOptions.Global.LanguageManager.Culture = new System.Globalization.CultureInfo("en");
+
+// Register JwtSettings (appsettings.json → JwtSettings class)
+builder.Services.Configure<JwtSettings>(
+    builder.Configuration.GetSection("Jwt"));
+
+// ---------------- JWT Authentication ----------------
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 // ---------------- Swagger ----------------
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "HKDataServices API", Version = "v1" });
+
+    // Add JWT Auth to Swagger UI
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Enter 'Bearer {your token}'"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
 });
 
+// ---------------- Custom Validation Messages ----------------
 builder.Services.Configure<ValidationMessages>(
     builder.Configuration.GetSection("ValidationMessages"));
+
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.InvalidModelStateResponseFactory = context =>
@@ -110,10 +158,11 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "HKDataServices API v1");
-								   
-									 
-    // c.RoutePrefix = string.Empty;
 });
+
+// Important: Add Authentication + Authorization middleware
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 app.Run();

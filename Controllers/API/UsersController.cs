@@ -1,13 +1,14 @@
 ﻿using HKDataServices.Model.DTOs;
 using HKDataServices.Service;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+
 
 namespace HKDataServices.Controllers.API
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _service;
@@ -98,28 +99,7 @@ namespace HKDataServices.Controllers.API
             return Ok(response);
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UsersLoginDto loginDto)
-        {
-            try
-            {
-                var user = await _service.LoginAsync(loginDto.EmailID, loginDto.MobileNumber, loginDto.Password);
-
-                if (user == null)
-                    return Unauthorized(new { message = "Invalid email/mobile or password." });
-
-                return Ok(new
-                {
-                    user.EmailID,
-                    user.MobileNumber,
-                    message = "login sucessfull"
-                });
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-        }
+        
 
     }
 }

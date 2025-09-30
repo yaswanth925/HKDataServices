@@ -9,7 +9,6 @@ namespace HKDataServices.Repository
         Task<Users> InsertAsync(Users entity, CancellationToken ct = default);
         Task<Users?> GetByMobileNumberAsync(string mobileNumber, CancellationToken ct = default);
         Task<Users?> GetByEmailIDAsync(string emailID, CancellationToken ct = default);
-        Task<Users?> GetByEmailOrMobileAsync(string email, string mobile);
 
     }
 }

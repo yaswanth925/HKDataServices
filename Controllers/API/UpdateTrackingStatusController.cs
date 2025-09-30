@@ -1,11 +1,13 @@
 ﻿using HKDataServices.Model.DTOs;
 using HKDataServices.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HKDataServices.Controllers.API;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class UpdateTrackingStatusController(IUpdateTrackingStatusService service) : ControllerBase
 {
     private readonly IUpdateTrackingStatusService _service = service;

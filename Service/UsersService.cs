@@ -4,10 +4,7 @@ using HKDataServices.Model.DTOs;
 using HKDataServices.Repository;
 using HKDataServices.Service;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace HKDataServices.Service
 {
@@ -119,26 +116,6 @@ namespace HKDataServices.Service
 
             return _repo.GetByEmailIDAsync(emailID, ct);
         }
-        public async Task<Users?> LoginAsync(string? email, string? mobile, string password)
-        {
-            if (string.IsNullOrWhiteSpace(email) && string.IsNullOrWhiteSpace(mobile))
-                throw new ArgumentException("Please provide either Email or Mobile number.");
-
-            if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentException("Password is required.");
-
-            var user = await _repo.GetByEmailOrMobileAsync(email, mobile);
-            if (user == null)
-                return null;
-
-            if (user.Password != password)
-                return null;
-
-            if (!user.IsActive)
-                return null;
-
-            return user;
-        }
-
+        
     }
 }

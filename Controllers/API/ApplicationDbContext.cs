@@ -1,4 +1,5 @@
 ﻿using HKDataServices.Model;
+using HKDataServices.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace HKDataServices.Controllers.API
@@ -8,9 +9,9 @@ namespace HKDataServices.Controllers.API
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
-        public DbSet<UpdateTrackingStatus> UpdateTrackingStatuses => Set<UpdateTrackingStatus>();
-        public DbSet<Users> Users => Set<Users>(); 
-
+        public DbSet<UpdateTrackingStatus> UpdateTrackingStatuses { get; set; } = null;
+        public DbSet<Users> Users { get; set; } = null;
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -35,25 +36,25 @@ namespace HKDataServices.Controllers.API
                       .IsUnicode(false);
 
                 entity.Property(e => e.FileName)
-                      .HasMaxLength(225)
+                      .HasMaxLength(255)
                       .IsUnicode(false);
 
                 entity.Property(e => e.FileData)
                       .HasColumnType("varbinary(max)");
 
                 entity.Property(e => e.Remarks)
-                      .HasMaxLength(225)
+                      .HasMaxLength(255)
                       .IsUnicode(false);
 
                 entity.Property(e => e.Createdby)
-                      .HasMaxLength(225)
+                      .HasMaxLength(255)
                       .IsUnicode(false);
 
                 entity.Property(e => e.Created)
                       .HasColumnType("datetime");
 
                 entity.Property(e => e.Modifiedby)
-                      .HasMaxLength(225)
+                      .HasMaxLength(255)
                       .IsUnicode(false);
 
                 entity.Property(e => e.Modified)
@@ -110,6 +111,7 @@ namespace HKDataServices.Controllers.API
                       .HasColumnType("bit")
                       .IsRequired();
             });
+          
         }
     }
 }

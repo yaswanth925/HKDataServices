@@ -10,7 +10,6 @@ namespace HKDataServices.Service
         Task<UsersResponseDto> CreateUsersAsync(UsersFormDto dto, CancellationToken ct = default);
         Task<Users?> GetByMobileNumberAsync(string MobileNumber, CancellationToken ct = default);
         Task<Users?> GetByEmailIDAsync(string EmailID, CancellationToken ct = default);
-        Task<Users?> LoginAsync(string email, string mobile, string password);
     }
 }
     

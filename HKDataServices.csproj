@@ -7,21 +7,30 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- EF Core 9 -->
-    <PackageReference Include="FluentValidation" Version="12.0.0" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
+    <!-- Authentication / JWT -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.1" />
+
+    <!-- EF Core (Stable 9.0.0 for .NET 9) -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 
-    <!-- Swagger/OpenAPI (optional) -->
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
+    <!-- OpenAPI / Swagger -->
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 
+    <!-- Validation / JSON -->
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+
+    <!-- SQL Client -->
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
 </Project>

@@ -41,16 +41,7 @@ namespace HKDataServices.Repository
                 .ThenByDescending(x => x.ID)
                 .FirstOrDefaultAsync(ct);
         }
-        public async Task<Users?> GetByEmailOrMobileAsync(string? email, string? mobile)
-        {
-            return await _db.Users
-                .AsNoTracking()
-                .FirstOrDefaultAsync(u =>
-                    (!string.IsNullOrEmpty(email) && u.EmailID == email) ||
-                    (!string.IsNullOrEmpty(mobile) && u.MobileNumber == mobile));
-        }
-
-
+        
     }
 }
     
