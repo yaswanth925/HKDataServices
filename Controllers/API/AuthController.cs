@@ -31,13 +31,13 @@ namespace HKDataServices.Controllers.API
                     return BadRequest(validation.Errors.Select(e => e.ErrorMessage));
             }
 
-            if (string.IsNullOrWhiteSpace(dto.EmailID) && string.IsNullOrWhiteSpace(dto.MobileNumber))
+            if (string.IsNullOrWhiteSpace(dto.UserName))
                 return BadRequest("Please provide EmailID or MobileNumber.");
 
             if (string.IsNullOrWhiteSpace(dto.Password))
                 return BadRequest("Password is required.");
 
-            var auth = await _authService.AuthenticateAsync(dto.EmailID, dto.MobileNumber, dto.Password);
+            var auth = await _authService.AuthenticateAsync(dto.UserName, null, dto.Password);
             if (auth == null)
                 return Unauthorized(new { message = "Invalid username or password." });
 
