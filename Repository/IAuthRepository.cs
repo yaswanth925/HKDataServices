@@ -9,6 +9,6 @@ namespace HKDataServices.Repository
         Task<Users?> GetUserByEmailOrMobileAsync(string? email, string? mobile);
         Task<Users> GetByEmailOrMobileAsync(string? email, string? mobile);
         Task UpdatePasswordAsync(Guid iD);
-        
+
     }
 }

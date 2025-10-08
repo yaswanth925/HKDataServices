@@ -103,5 +103,10 @@ namespace HKDataServices.Service
                 return false;
             }
         }
+
+        public Task AuthenticateAsync(string username, string password)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
