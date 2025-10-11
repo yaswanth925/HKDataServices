@@ -2,10 +2,8 @@
 using HKDataServices.Model.DTOs;
 using HKDataServices.Repository;
 using HKDataServices.Settings;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -108,5 +106,58 @@ namespace HKDataServices.Service
         {
             throw new NotImplementedException();
         }
+        public async Task<(bool Success, string Message)> ChangePasswordAsync(ChangePasswordDto dto)
+        {
+            var user = await _repo.GetUserByEmailOrMobileAsync(dto.UserName, dto.UserName);
+
+            if (user == null)
+                return (false, "User not found.");
+
+            if (!user.IsActive)
+                return (false, "User account is inactive.");
+
+            if (user.Password != dto.CurrentPassword)
+                return (false, "Current password is incorrect.");
+
+            var updated = await _repo.UpdatePasswordAsync(user.ID, dto.NewPassword);
+
+            if (!updated)
+                return (false, "Failed to update password.");
+
+            return (true, "Password changed successfully.");
+        }
+        
+        public async Task<(bool Success, string Message)> GenerateOtpAsync(string username)
+        {
+            var user = await _repo.GetUserByEmailOrMobileAsync(username, username);
+            if (user == null)
+                return (false, "User not found.");
+
+            var otp = new Random().Next(100000, 999999).ToString();
+            var expiry = DateTime.UtcNow.AddMinutes(5);
+
+            await _repo.SaveOtpAsync(user.ID, otp, expiry);
+
+            return (true, $"OTP generated successfully. (Dev: {otp})");
+        }
+
+        public async Task<(bool Success, string Message)> VerifyOtpAndChangePasswordAsync(VerifyOtpDto dto)
+        {
+            var user = await _repo.GetUserByEmailOrMobileAsync(dto.UserName, dto.UserName);
+            if (user == null)
+                return (false, "User not found.");
+
+            if (!await _repo.VerifyOtpAsync(dto.UserName, dto.OtpCode))
+                return (false, "Invalid or expired OTP.");
+
+            var updated = await _repo.UpdatePasswordAsync(user.ID, dto.NewPassword);
+            if (!updated)
+                return (false, "Failed to update password.");
+
+            await _repo.ClearOtpAsync(user.ID);
+
+            return (true, "Password updated successfully.");
+        }
+
     }
 }

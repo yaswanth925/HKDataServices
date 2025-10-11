@@ -2,9 +2,6 @@
 using HKDataServices.Model;
 using HKDataServices.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HKDataServices.Repository
 {
@@ -80,5 +77,57 @@ namespace HKDataServices.Repository
             throw new NotImplementedException();
         }
 
+        public async Task<bool> UpdatePasswordAsync(Guid userId, string newPassword)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.ID == userId);
+            if (user == null)
+                return false;
+
+            user.Password = newPassword;
+            //user.ModifiedDate = DateTime.UtcNow;
+
+            _db.Users.Update(user);
+            await _db.SaveChangesAsync();
+
+            return true;
+        }
+        public async Task SaveOtpAsync(Guid userId, string otpCode, DateTime expiry)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.ID == userId);
+            if (user != null)
+            {
+                user.OtpCode = otpCode;
+                user.OtpExpiryTime = expiry;
+                //user.ModifiedDate = DateTime.UtcNow;
+                _db.Users.Update(user);
+                await _db.SaveChangesAsync();
+            }
+        }
+
+        public async Task<bool> VerifyOtpAsync(string username, string otpCode)
+        {
+            var user = await _db.Users
+                .FirstOrDefaultAsync(u =>
+                    (u.EmailID == username || u.MobileNumber == username) &&
+                    u.OtpCode == otpCode);
+
+            if (user == null) return false;
+            if (user.OtpExpiryTime == null || user.OtpExpiryTime < DateTime.UtcNow) return false;
+
+            return true;
+        }
+
+        public async Task ClearOtpAsync(Guid userId)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => u.ID == userId);
+            if (user != null)
+            {
+                user.OtpCode = null;
+                user.OtpExpiryTime = null;
+                //user.ModifiedDate = DateTime.UtcNow;
+                _db.Users.Update(user);
+                await _db.SaveChangesAsync();
+            }
+        }
     }
 }

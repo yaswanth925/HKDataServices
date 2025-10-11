@@ -1,6 +1,6 @@
-﻿using HKDataServices.Model.DTOs;
+﻿using FluentValidation;
+using HKDataServices.Model.DTOs;
 using HKDataServices.Service;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -53,6 +53,55 @@ namespace HKDataServices.Controllers.API
             var token = header.Substring("Bearer ".Length).Trim();
             var valid = _authService.ValidateToken(token);
             return valid ? Ok(new { message = "Token is valid." }) : Unauthorized(new { message = "Token is invalid or expired." });
+        }
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            if (dto == null)
+                return BadRequest("Request body is required.");
+
+            if (string.IsNullOrWhiteSpace(dto.UserName) ||
+                string.IsNullOrWhiteSpace(dto.CurrentPassword) ||
+                string.IsNullOrWhiteSpace(dto.NewPassword))
+            {
+                return BadRequest("All fields are required.");
+            }
+
+            var result = await _authService.ChangePasswordAsync(dto);
+
+            if (!result.Success)
+                return BadRequest(new { message = result.Message });
+
+            return Ok(new { message = "Password changed successfully." });
+        }
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.UserName))
+                return BadRequest("Username is required.");
+
+            var result = await _authService.GenerateOtpAsync(dto.UserName);
+
+            if (!result.Success)
+                return BadRequest(new { message = result.Message });
+
+            return Ok(new { message = result.Message });
+        }
+
+        [HttpPost("verify-otp")]
+        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpDto dto)
+        {
+            if (string.IsNullOrWhiteSpace(dto.UserName) ||
+                string.IsNullOrWhiteSpace(dto.OtpCode) ||
+                string.IsNullOrWhiteSpace(dto.NewPassword))
+                return BadRequest("All fields are required.");
+
+            var result = await _authService.VerifyOtpAndChangePasswordAsync(dto);
+
+            if (!result.Success)
+                return BadRequest(new { message = result.Message });
+
+            return Ok(new { message = "Password changed successfully." });
         }
     }
 }

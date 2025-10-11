@@ -11,7 +11,8 @@ namespace HKDataServices.Controllers.API
 
         public DbSet<UpdateTrackingStatus> UpdateTrackingStatuses { get; set; } = null;
         public DbSet<Users> Users { get; set; } = null;
-       
+        public DbSet<OtpRecord> OtpRecords { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
