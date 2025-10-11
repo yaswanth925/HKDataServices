@@ -109,7 +109,6 @@ namespace HKDataServices.Service
         public async Task<(bool Success, string Message)> ChangePasswordAsync(ChangePasswordDto dto)
         {
             var user = await _repo.GetUserByEmailOrMobileAsync(dto.UserName, dto.UserName);
-
             if (user == null)
                 return (false, "User not found.");
 
@@ -119,14 +118,14 @@ namespace HKDataServices.Service
             if (user.Password != dto.CurrentPassword)
                 return (false, "Current password is incorrect.");
 
-            var updated = await _repo.UpdatePasswordAsync(user.ID, dto.NewPassword);
+            var updated = await _repo.UpdatePasswordAsync(dto.UserName, dto.NewPassword);
 
             if (!updated)
                 return (false, "Failed to update password.");
 
             return (true, "Password changed successfully.");
         }
-        
+
         public async Task<(bool Success, string Message)> GenerateOtpAsync(string username)
         {
             var user = await _repo.GetUserByEmailOrMobileAsync(username, username);
@@ -134,9 +133,9 @@ namespace HKDataServices.Service
                 return (false, "User not found.");
 
             var otp = new Random().Next(100000, 999999).ToString();
-            var expiry = DateTime.UtcNow.AddMinutes(5);
+            var expiry = DateTime.UtcNow.AddMinutes(_jwtSettings.OtpExpireMinutes);
 
-            await _repo.SaveOtpAsync(user.ID, otp, expiry);
+            await _repo.SaveOtpAsync(username, otp, expiry);
 
             return (true, $"OTP generated successfully. (Dev: {otp})");
         }
@@ -147,14 +146,15 @@ namespace HKDataServices.Service
             if (user == null)
                 return (false, "User not found.");
 
-            if (!await _repo.VerifyOtpAsync(dto.UserName, dto.OtpCode))
-                return (false, "Invalid or expired OTP.");
+            var otpResult = await _repo.VerifyOtpAsync(dto.UserName, dto.OtpCode);
+            if (!otpResult.Success)
+                return (false, otpResult.Message);
 
-            var updated = await _repo.UpdatePasswordAsync(user.ID, dto.NewPassword);
+            var updated = await _repo.UpdatePasswordAsync(dto.UserName, dto.NewPassword);
             if (!updated)
                 return (false, "Failed to update password.");
 
-            await _repo.ClearOtpAsync(user.ID);
+            await _repo.ClearOtpAsync(dto.UserName);
 
             return (true, "Password updated successfully.");
         }

@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using HKDataServices.Model.DTOs;
 using HKDataServices.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -54,7 +55,9 @@ namespace HKDataServices.Controllers.API
             var valid = _authService.ValidateToken(token);
             return valid ? Ok(new { message = "Token is valid." }) : Unauthorized(new { message = "Token is invalid or expired." });
         }
+
         [HttpPost("change-password")]
+        [AllowAnonymous]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
         {
             if (dto == null)
@@ -74,11 +77,13 @@ namespace HKDataServices.Controllers.API
 
             return Ok(new { message = "Password changed successfully." });
         }
+
         [HttpPost("forgot-password")]
+        [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.UserName))
-                return BadRequest("Username is required.");
+            if (dto == null || string.IsNullOrWhiteSpace(dto.UserName))
+                return BadRequest("Username (email or phone) is required.");
 
             var result = await _authService.GenerateOtpAsync(dto.UserName);
 
@@ -89,19 +94,18 @@ namespace HKDataServices.Controllers.API
         }
 
         [HttpPost("verify-otp")]
+        [AllowAnonymous]
         public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.UserName) ||
-                string.IsNullOrWhiteSpace(dto.OtpCode) ||
-                string.IsNullOrWhiteSpace(dto.NewPassword))
-                return BadRequest("All fields are required.");
+            if (dto == null || string.IsNullOrWhiteSpace(dto.UserName) || string.IsNullOrWhiteSpace(dto.OtpCode))
+                return BadRequest("Username and OTP are required.");
 
             var result = await _authService.VerifyOtpAndChangePasswordAsync(dto);
 
             if (!result.Success)
                 return BadRequest(new { message = result.Message });
 
-            return Ok(new { message = "Password changed successfully." });
+            return Ok(new { message = result.Message });
         }
     }
 }

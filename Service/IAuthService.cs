@@ -1,8 +1,7 @@
 ﻿using HKDataServices.Model.DTOs;
+
 namespace HKDataServices.Service
 {
-
-
     public interface IAuthService
     {
         Task<AuthResponseDto?> AuthenticateAsync(string? email, string? mobile, string password);
