@@ -5,9 +5,11 @@
         public Guid ID { get; set; } = Guid.NewGuid();
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
-        public required string MobileNumber { get; set; }
         public required string EmailID { get; set; } = null!;
+        public required string MobileNumber { get; set; }
         public required string Password { get; set; }
+        public string? OtpCode { get; set; }
+        public DateTime? OtpExpiryTime { get; set; }
         public required string Createdby { get; set; }
         public DateTime Created { get; set; }
         public required string Modifiedby { get; set; }
