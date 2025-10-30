@@ -46,10 +46,10 @@ namespace HKDataServices.Validators
                 .NotEmpty().WithMessage("Description is required.")
                 .MaximumLength(1000).WithMessage("Description must be a text.");
 
-            RuleFor(x => x.PhotoUpload)
-                .NotNull().WithMessage(_messages.PhotoUploadEmpty ?? "File data is required.")
+            RuleFor(x => x.ImageFile)
+                .NotNull().WithMessage(_messages.ImageFileEmpty ?? "Image File is required.")
                 .Must(fd => fd != null && fd.Length > 0)
-                    .WithMessage(_messages.PhotoUploadEmpty ?? "File data is required.")
+                    .WithMessage(_messages.ImageFileEmpty ?? "Image File is required.")
                 .Must(fd => fd == null || fd.Length <= 5 * 1024 * 1024)
                     .WithMessage("File size cannot exceed 5 MB.");
 

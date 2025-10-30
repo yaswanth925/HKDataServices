@@ -59,11 +59,14 @@ namespace HKDataServices.Service
             if (dto == null)
                 throw new ArgumentNullException(nameof(dto));
 
-            if (dto.FileData == null || dto.FileData.Length == 0)
-                throw new ArgumentException("FileData is required and cannot be empty.");
+            if (dto.FileData.Length > 5 * 1024 * 1024) 
+                throw new ArgumentException("FileData is too large.");
 
-            if (dto.ImageFile == null || dto.ImageFile.Length == 0)
-                throw new ArgumentException("ImageFile is required and cannot be empty.");
+            if (dto.ImageFile.Length > 5 * 1024 * 1024)
+                throw new ArgumentException("ImageFile is too large.");
+
+            if (!dto.ImageFile.ContentType.StartsWith("image/"))
+                throw new ArgumentException("Only image files are allowed for ImageFile.");
 
             byte[] fileBytes;
             await using (var ms = new MemoryStream())
@@ -79,11 +82,10 @@ namespace HKDataServices.Service
                 imageBytes = ms.ToArray();
             }
 
-            
-            var customerExists = await _context.Customers
-                .AnyAsync(c => c.CustomerID == dto.CustomerID, ct);
+            var customer = await _context.Customers
+         .FirstOrDefaultAsync(c => c.CustomerID == dto.CustomerID, ct);
 
-            if (!customerExists)
+            if (customer == null)
                 throw new InvalidOperationException("Invalid CustomerID. Please create or select a valid customer before adding a pre-sales activity.");
 
             var entity = new PreSalesActivity
@@ -112,6 +114,7 @@ namespace HKDataServices.Service
                 CreatedBy = entity.CreatedBy,
                 Created = entity.Created
             };
+
         }
 
         public async Task<bool> UpdateAsync(Guid id, PreSalesActivityDto dto, CancellationToken ct)

@@ -24,7 +24,7 @@ namespace HKDataServices.Model.DTOs
         [Required]
         public string? Description { get; set; }
         [Required]
-        public string? PhotoBase64 { get; set; }
+        public string? ImageBase64 { get; set; }
         [Required]
         public string? CreatedBy { get; set; }
         public DateTime Created { get; set; }

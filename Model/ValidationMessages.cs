@@ -29,7 +29,7 @@
         public string? PasswordEmpty { get; set; }
         public string? PasswordMinLength { get; set; }
 
-        //CustomerRegistrationForm
+        //Customers
         public string? CustomerNameEmpty { get; set; }
         public string? CustomerNameMax { get; set; }
         public string? GSTNumberEmpty { get; set; }
@@ -39,8 +39,8 @@
         public string? PincodeEmpty { get; set; }
         public string? CityEmpty { get; set; }
         public string? StateEmpty { get; set; }
-        public string? PhotoUploadEmpty { get; set; }
-        public string? PhotoUploadMax { get; set; }
+        public string? ImageFileEmpty { get; set; }
+        public string? ImageFileMax { get; set; }
 
         //PreSalesActivityForm
 

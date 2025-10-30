@@ -26,8 +26,8 @@ namespace HKDataServices.Validators
                 .Matches(@"^\d+$").WithMessage("PO Value must be numeric.");
 
             RuleFor(x => x.ImageFile)
-                .NotNull().WithMessage(_messages.PhotoUploadEmpty ?? "Photo upload is required.")
-                .Must(BeAValidFile).WithMessage("Photo file size cannot exceed 5 MB.");
+                .NotNull().WithMessage(_messages.ImageFileEmpty ?? "Image File is required.")
+                .Must(BeAValidFile).WithMessage("Image file size cannot exceed 5 MB.");
 
             RuleFor(x => x.CreatedBy)
                 .NotEmpty().WithMessage("CreatedBy is required.")

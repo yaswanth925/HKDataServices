@@ -12,7 +12,7 @@
         public string? City { get; set; }
         public string? State { get; set; }
         public string? Description { get; set; }
-        public IFormFile? PhotoUpload { get; set; }
+        public IFormFile? ImageFile { get; set; }
         public string? CreatedBy { get; set; }
         public string? Created { get; set; }
         public string? ModifiedBy { get; set; }
