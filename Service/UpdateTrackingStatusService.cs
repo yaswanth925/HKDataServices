@@ -4,8 +4,8 @@ using HKDataServices.Repository;
 
 namespace HKDataServices.Service;
 
- public class UpdateTrackingStatusService(IUpdateTrackingStatusRepository repo) : IUpdateTrackingStatusService
- {
+public class UpdateTrackingStatusService(IUpdateTrackingStatusRepository repo) : IUpdateTrackingStatusService
+{
 
     public async Task<UpdateTrackingStatus> CreateAsync(UpdateTrackingStatusFormDto dto, CancellationToken ct = default)
     {
@@ -23,13 +23,13 @@ namespace HKDataServices.Service;
 
         var entity = new UpdateTrackingStatus
         {
-            ID = Guid.NewGuid(),                
+            ID = Guid.NewGuid(),
             AWBNumber = dto.AWBNumber,
             StatusType = dto.StatusType,
             FileName = string.IsNullOrWhiteSpace(dto.FileName) ? dto.FileData.FileName : dto.FileName,
             FileData = bytes,
             Remarks = dto.Remarks,
-            Createdby = string.IsNullOrWhiteSpace(dto.Createdby) ? "system" : dto.Createdby,
+            CreatedBy = string.IsNullOrWhiteSpace(dto.CreatedBy) ? "system" : dto.CreatedBy,
             Created = DateTime.UtcNow
         };
 
@@ -67,9 +67,9 @@ namespace HKDataServices.Service;
     {
         throw new NotImplementedException();
     }
-    
+
     public Task<UpdateTrackingStatus?> UpdateAsync(string awbNumber, UpdateTrackingStatusUpdateDto dto, CancellationToken ct = default)
     {
         throw new NotImplementedException();
     }
- }
+}

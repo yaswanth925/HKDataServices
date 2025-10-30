@@ -90,7 +90,7 @@ namespace HKDataServices.Repository
             return true;
         }
         public async Task SaveOtpAsync(string username, string otpCode, DateTime expiry)
-        {            
+        {
             if (string.IsNullOrWhiteSpace(username))
                 throw new ArgumentException("Username cannot be empty.", nameof(username));
             var user = await _db.Users
@@ -102,7 +102,7 @@ namespace HKDataServices.Repository
                 return;
 
             if (!user.IsActive)
-                return; 
+                return;
 
             user.OtpCode = otpCode;
             user.OtpExpiryTime = expiry;
@@ -118,7 +118,7 @@ namespace HKDataServices.Repository
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(otpCode))
                 return (false, "Username or OTP cannot be empty.");
 
-            var user = await _db.Users.FirstOrDefaultAsync(u =>(u.EmailID == username || u.MobileNumber == username));
+            var user = await _db.Users.FirstOrDefaultAsync(u => (u.EmailID == username || u.MobileNumber == username));
 
             if (user == null)
                 return (false, "User not found.");

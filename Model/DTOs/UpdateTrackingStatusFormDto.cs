@@ -9,9 +9,9 @@ namespace HKDataServices.Model.DTOs
         public string? FileName { get; set; }
         [Required] public IFormFile FileData { get; set; } = default!;
         public string? Remarks { get; set; }
-        public string? Createdby { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime? Created { get; set; }
-        public string Modifiedby { get; set; } = default!;
+        public string ModifiedBy { get; set; } = default!;
         public DateTime? Modified { get; set; }
     }
 }

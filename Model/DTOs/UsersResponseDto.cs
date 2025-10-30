@@ -18,10 +18,10 @@ namespace HKDataServices.Model.DTOs
         public string Password { get; set; }
         public bool IsActive { get; set; }
         [Required]
-        public string Createdby { get; set; }
+        public string CreatedBy { get; set; }
         public DateTime Created { get; set; }
         [Required]
-        public string Modifiedby { get; set; }
+        public string ModifiedBy { get; set; }
         public DateTime Modified { get; set; }
     }
 }

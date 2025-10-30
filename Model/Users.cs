@@ -10,9 +10,9 @@
         public required string Password { get; set; }
         public string? OtpCode { get; set; }
         public DateTime? OtpExpiryTime { get; set; }
-        public required string Createdby { get; set; }
+        public required string CreatedBy { get; set; }
         public DateTime Created { get; set; }
-        public required string Modifiedby { get; set; }
+        public required string ModifiedBy { get; set; }
         public DateTime Modified { get; set; }
         public bool IsActive { get; set; } = true;
        

@@ -62,12 +62,21 @@ builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IPasswordHasher<Users>, PasswordHasher<Users>>();
-
+builder.Services.AddScoped<IPreSalesTargetRepository, PreSalesTargetRepository>();
+builder.Services.AddScoped<IPreSalesTargetService, PreSalesTargetService>();
+builder.Services.AddScoped<ICustomersRepository, CustomersRepository>();
+builder.Services.AddScoped<ICustomersService, CustomersService>();
+builder.Services.AddScoped<IPreSalesActivityRepository, PreSalesActivityRepository>();
+builder.Services.AddScoped<IPreSalesActivityService, PreSalesActivityService>();
 // ---------------- FluentValidation ----------------
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<UsersFormDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateTrackingStatusFormDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<PreSalesTargetDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CustomersDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<PreSalesActivityDtoValidator>();
+
 ValidatorOptions.Global.LanguageManager.Enabled = true;
 ValidatorOptions.Global.LanguageManager.Culture = new System.Globalization.CultureInfo("en");
 

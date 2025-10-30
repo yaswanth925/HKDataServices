@@ -57,18 +57,19 @@ public class UpdateTrackingStatusRepository(ApplicationDbContext db) : IUpdateTr
             .FirstOrDefaultAsync(ct);
     }
 
-    public Task<UpdateTrackingStatus?> UpdateByIdAsync(Guid id, UpdateTrackingStatusUpdateDto dto, CancellationToken ct = default)
-    {
-        throw new NotImplementedException();
-    }
+    //public Task<UpdateTrackingStatus?> UpdateByIdAsync(Guid id, UpdateTrackingStatusUpdateDto dto, CancellationToken ct = default)
+    //{
+    //    throw new NotImplementedException();
+    //}
 
-    public Task<UpdateTrackingStatus?> UpdateByAwbNumberAsync(string awbNumber, UpdateTrackingStatusUpdateDto dto, CancellationToken ct = default)
-    {
-        throw new NotImplementedException();
-    }
+    //public Task<UpdateTrackingStatus?> UpdateByAwbNumberAsync(string awbNumber, UpdateTrackingStatusUpdateDto dto, CancellationToken ct = default)
+    //{
+    //    throw new NotImplementedException();
+    //}
 
     public Task<UpdateTrackingStatus?> GetByIdForUpdateAsync(Guid id, CancellationToken ct = default)
     {
         throw new NotImplementedException();
     }
+
 }

@@ -25,9 +25,9 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
             FileName = entity.FileName,
             FileData = entity.FileData,
             Remarks = entity.Remarks,
-            Createdby = entity.Createdby,
+            CreatedBy = entity.CreatedBy,
             Created = entity.Created,
-            Modifiedby = entity.Modifiedby,
+            ModifiedBy = entity.ModifiedBy,
             Modified = entity.Modified
         }).ToList();
 
@@ -53,9 +53,9 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
             FileName = entity.FileName,
             FileData = entity.FileData,
             Remarks = entity.Remarks,
-            Createdby = entity.Createdby,
+            CreatedBy = entity.CreatedBy,
             Created = entity.Created,
-            Modifiedby = entity.Modifiedby,
+            ModifiedBy = entity.ModifiedBy,
             Modified = entity.Modified
         };
 
@@ -79,9 +79,9 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
             FileName = entity.FileName,
             FileData = entity.FileData,
             Remarks = entity.Remarks,
-            Createdby = entity.Createdby,
+            CreatedBy = entity.CreatedBy,
             Created = entity.Created,
-            Modifiedby = entity.Modifiedby,
+            ModifiedBy = entity.ModifiedBy,
             Modified = entity.Modified
         };
 
@@ -107,10 +107,10 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
             StatusType = entity.StatusType,
             FileName = entity.FileName,
             FileData = entity.FileData,
-            Remarks = entity.Remarks, 
-            Createdby = entity.Createdby,
+            Remarks = entity.Remarks,
+            CreatedBy = entity.CreatedBy,
             Created = entity.Created,
-            Modifiedby = entity.Modifiedby,
+            ModifiedBy = entity.ModifiedBy,
             Modified = entity.Modified
         }).ToList();
 
@@ -156,16 +156,16 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
             FileName = updated.FileName,
             FileData = updated.FileData,
             Remarks = updated.Remarks,
-            Createdby = updated.Createdby,
+            CreatedBy = updated.CreatedBy,
             Created = updated.Created,
-            Modifiedby = updated.Modifiedby,
+            ModifiedBy = updated.ModifiedBy,
             Modified = updated.Modified
         };
 
         return Ok(response);
     }
 
-        [HttpPut("{id:guid}")]
+    [HttpPut("{id:guid}")]
     [ProducesResponseType(typeof(UpdateTrackingStatusResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -188,9 +188,9 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
             FileName = updated.FileName,
             FileData = updated.FileData,
             Remarks = updated.Remarks,
-            Createdby = updated.Createdby,
+            CreatedBy = updated.CreatedBy,
             Created = updated.Created,
-            Modifiedby = updated.Modifiedby,
+            ModifiedBy = updated.ModifiedBy,
             Modified = updated.Modified
         };
 

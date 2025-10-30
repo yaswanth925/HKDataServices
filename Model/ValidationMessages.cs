@@ -12,23 +12,45 @@
         public string? FileDataEmpty { get; set; }
         public string? FileDataMax{ get; set; }
         public string? RemarksMaxLength { get; set; }
-        public string? CreatedbyEmpty { get; set; }
+        public string? CreatedByEmpty { get; set; }
 
 
 
         //Users
 
-        public string FirstNameEmpty { get; set; }
-        public string FirstNameMax { get; set; }
-        public string LastNameEmpty { get; set; }
-        public string LastNameMax { get; set; }
-        public string MobileNumberEmpty { get; set; }
-        public string MobileNumberInvalid { get; set; }
-        public string EmailEmpty { get; set; }
-        public string EmailInvalid { get; set; }
-        public string PasswordEmpty { get; set; }
-        public string PasswordMinLength { get; set; }
-       
+        public string? FirstNameEmpty { get; set; }
+        public string? FirstNameMax { get; set; }
+        public string? LastNameEmpty { get; set; }
+        public string? LastNameMax { get; set; }
+        public string?  MobileNumberEmpty { get; set; }
+        public string? MobileNumberInvalid { get; set; }
+        public string? EmailEmpty { get; set; }
+        public string? EmailInvalid { get; set; }
+        public string? PasswordEmpty { get; set; }
+        public string? PasswordMinLength { get; set; }
+
+        //CustomerRegistrationForm
+        public string? CustomerNameEmpty { get; set; }
+        public string? CustomerNameMax { get; set; }
+        public string? GSTNumberEmpty { get; set; }
+        public string? GSTNumberInvalid { get; set; }
+        public string? AddressEmpty { get; set; }
+        public string? AddressMax { get; set; }
+        public string? PincodeEmpty { get; set; }
+        public string? CityEmpty { get; set; }
+        public string? StateEmpty { get; set; }
+        public string? PhotoUploadEmpty { get; set; }
+        public string? PhotoUploadMax { get; set; }
+
+        //PreSalesActivityForm
+
+        public Guid? ActivityTypeID { get; set; }
+        public string? ActivityType { get; set; }
+        public string? ActivityTypeEmpty { get; set; }
+        public string? ActivityTypeInvalid { get; set; }
+        public bool? IsActive { get; set; }
+        public string? Description { get; set; }
+        public string? POValue { get; set; }
        
     }
 
