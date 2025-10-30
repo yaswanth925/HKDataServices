@@ -2,9 +2,6 @@
 using HKDataServices.Model;
 using HKDataServices.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HKDataServices.Repository
 {
@@ -80,5 +77,76 @@ namespace HKDataServices.Repository
             throw new NotImplementedException();
         }
 
+        public async Task<bool> UpdatePasswordAsync(string username, string newPassword)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => (u.EmailID == username || u.MobileNumber == username));
+            if (user == null)
+                return false;
+
+            user.Password = newPassword;
+            _db.Users.Update(user);
+            await _db.SaveChangesAsync();
+
+            return true;
+        }
+        public async Task SaveOtpAsync(string username, string otpCode, DateTime expiry)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                throw new ArgumentException("Username cannot be empty.", nameof(username));
+            var user = await _db.Users
+                .FirstOrDefaultAsync(u =>
+                    u.EmailID.ToLower() == username.ToLower() ||
+                    u.MobileNumber == username);
+
+            if (user == null)
+                return;
+
+            if (!user.IsActive)
+                return;
+
+            user.OtpCode = otpCode;
+            user.OtpExpiryTime = expiry;
+            user.Modified = DateTime.UtcNow;
+
+            _db.Entry(user).State = EntityState.Modified;
+
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<(bool Success, string Message)> VerifyOtpAsync(string username, string otpCode)
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(otpCode))
+                return (false, "Username or OTP cannot be empty.");
+
+            var user = await _db.Users.FirstOrDefaultAsync(u => (u.EmailID == username || u.MobileNumber == username));
+
+            if (user == null)
+                return (false, "User not found.");
+
+            if (string.IsNullOrEmpty(user.OtpCode) || user.OtpExpiryTime == null)
+                return (false, "No OTP found. Please generate a new one.");
+
+            if (user.OtpCode != otpCode)
+                return (false, "Incorrect OTP. Please try again.");
+
+            if (user.OtpExpiryTime < DateTime.UtcNow)
+                return (false, "OTP expired. Please request a new one.");
+
+            return (true, "OTP verified successfully.");
+        }
+        public async Task ClearOtpAsync(string username)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(u => (u.EmailID == username || u.MobileNumber == username));
+
+            if (user != null)
+            {
+                user.OtpCode = null;
+                user.OtpExpiryTime = null;
+                user.Modified = DateTime.UtcNow;
+
+                _db.Users.Update(user);
+                await _db.SaveChangesAsync();
+            }
+        }
     }
 }

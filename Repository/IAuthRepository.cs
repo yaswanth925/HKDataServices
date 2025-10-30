@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using HKDataServices.Model;
+﻿using HKDataServices.Model;
 
 namespace HKDataServices.Repository
 {
@@ -8,7 +6,10 @@ namespace HKDataServices.Repository
     {
         Task<Users?> GetUserByEmailOrMobileAsync(string? email, string? mobile);
         Task<Users> GetByEmailOrMobileAsync(string? email, string? mobile);
-        Task UpdatePasswordAsync(Guid iD);
+        Task SaveOtpAsync(string username, string otpCode, DateTime expiry);
+        Task<(bool Success, string Message)> VerifyOtpAsync(string username, string otpCode);
+        Task ClearOtpAsync(string username);
+        Task<bool> UpdatePasswordAsync(string username, string newPassword);
 
     }
 }

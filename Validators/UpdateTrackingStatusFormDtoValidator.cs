@@ -36,9 +36,9 @@ namespace HKDataServices.Validators
             RuleFor(x => x.Remarks)
                 .MaximumLength(255).WithMessage(_messages.RemarksMaxLength ?? "Remarks cannot exceed 255 characters.");
 
-            RuleFor(x => x.Createdby)
-                .NotEmpty().WithMessage(_messages.CreatedbyEmpty ?? "Created by is required.")
-                .MaximumLength(255).WithMessage("Created by cannot exceed 255 characters.");
+            RuleFor(x => x.CreatedBy)
+                .NotEmpty().WithMessage(_messages.CreatedByEmpty ?? "Created By is required.")
+                .MaximumLength(255).WithMessage("Created By cannot exceed 255 characters.");
         }
     }
 }

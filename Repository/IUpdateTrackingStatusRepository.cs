@@ -12,6 +12,5 @@ public interface IUpdateTrackingStatusRepository
     Task<UpdateTrackingStatus?> GetByAwbNumberAsync(string awbNumber, CancellationToken ct = default);
     Task<UpdateTrackingStatus?> GetByIDAsync(Guid id, CancellationToken ct = default);
     Task<List<UpdateTrackingStatus>> GetByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken ct);
-    Task<UpdateTrackingStatus?> UpdateByAwbNumberAsync(string awbNumber, UpdateTrackingStatusUpdateDto dto, CancellationToken ct = default);
     Task<UpdateTrackingStatus?> GetByIdForUpdateAsync(Guid id, CancellationToken ct = default);
 }

@@ -8,9 +8,9 @@
         public string? FileName { get; set; }
         public byte[] FileData { get; set; }
         public string? Remarks { get; set; }
-        public string? Createdby { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime? Created { get; set; }
-        public string? Modifiedby { get; set; }
+        public string? ModifiedBy { get; set; }
         public DateTime? Modified { get; set; }
     }
 }

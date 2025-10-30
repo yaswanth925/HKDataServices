@@ -52,9 +52,9 @@ namespace HKDataServices.Service
                 MobileNumber = dto.MobileNumber,
                 EmailID = dto.EmailID,
                 Password = dto.Password, 
-                Createdby = dto.Createdby,
+                CreatedBy = dto.CreatedBy,
                 Created = DateTime.UtcNow,
-                Modifiedby = dto.Createdby,
+                ModifiedBy = dto.CreatedBy,
                 Modified = DateTime.UtcNow,
                 IsActive = dto.IsActive
             };
@@ -78,7 +78,7 @@ namespace HKDataServices.Service
                     EmailID = createdEntity.EmailID,
                     IsActive = createdEntity.IsActive,
                     Created = createdEntity.Created,
-                    Createdby = createdEntity.Createdby
+                    CreatedBy = createdEntity.CreatedBy
                 };
             }
             catch (DbUpdateException dbEx)

@@ -34,8 +34,8 @@ namespace HKDataServices.Validators
                 .NotEmpty().WithMessage(_messages.PasswordEmpty ?? "Password is required.")
                 .MinimumLength(6).WithMessage(_messages.PasswordMinLength ?? "Password must be at least 6 characters.");
 
-            RuleFor(x => x.Createdby)
-                .NotEmpty().WithMessage(_messages.CreatedbyEmpty ?? "Createdby is required.");
+            RuleFor(x => x.CreatedBy)
+                .NotEmpty().WithMessage(_messages.CreatedByEmpty ?? "CreatedBy is required.");
         }
     }
 }

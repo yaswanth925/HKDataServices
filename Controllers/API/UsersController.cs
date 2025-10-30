@@ -34,7 +34,7 @@ namespace HKDataServices.Controllers.API
                 MobileNumber = created.MobileNumber,
                 EmailID = created.EmailID,
                 IsActive = created.IsActive,
-                Createdby = created.Createdby,
+                CreatedBy = created.CreatedBy,
                 Created = created.Created
                 
             };
@@ -61,9 +61,9 @@ namespace HKDataServices.Controllers.API
                 MobileNumber = entity.MobileNumber,
                 EmailID = entity.EmailID,
                 IsActive = entity.IsActive,
-                Createdby = entity.Createdby,
+                CreatedBy = entity.CreatedBy,
                 Created = entity.Created,
-                Modifiedby = entity.Modifiedby,
+                ModifiedBy = entity.ModifiedBy,
                 Modified = entity.Modified
             };
 
@@ -90,9 +90,9 @@ namespace HKDataServices.Controllers.API
                 MobileNumber = entity.MobileNumber,
                 EmailID = entity.EmailID,
                 IsActive = entity.IsActive,
-                Createdby = entity.Createdby,
+                CreatedBy = entity.CreatedBy,
                 Created = entity.Created,
-                Modifiedby = entity.Modifiedby,
+                ModifiedBy = entity.ModifiedBy,
                 Modified = entity.Modified
             };
 

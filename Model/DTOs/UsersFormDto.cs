@@ -16,7 +16,7 @@ namespace HKDataServices.Model.DTOs
         [Required]
         public string Password { get; set; } = string.Empty;
         [Required]
-        public string Createdby { get; set; } = string.Empty;
+        public string CreatedBy { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
     }
 }
