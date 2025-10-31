@@ -38,10 +38,8 @@ namespace HKDataServices.Service
              }
              else
              {
-              // ✅ Case 2: Legacy (plain text)
               if (user.Password == password)
               {
-                // Rehash using bcrypt for future logins
                 string newHashed = BCrypt.Net.BCrypt.HashPassword(password);
                 await _repo.UpdatePasswordAsync(user.EmailID ?? user.MobileNumber!, newHashed);
                 isPasswordValid = true;

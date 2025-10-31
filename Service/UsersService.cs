@@ -43,7 +43,6 @@ namespace HKDataServices.Service
             dto.FirstName = dto.FirstName?.Trim();
             dto.LastName = dto.LastName?.Trim();
 
-            // ✅ Hash password using BCrypt before storing in DB
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
             var entity = new Users
@@ -53,7 +52,7 @@ namespace HKDataServices.Service
                 LastName = dto.LastName,
                 MobileNumber = dto.MobileNumber,
                 EmailID = dto.EmailID,
-                Password = hashedPassword, // ✅ Store the hashed password
+                Password = hashedPassword, 
                 CreatedBy = dto.CreatedBy,
                 Created = DateTime.UtcNow,
                 ModifiedBy = dto.CreatedBy,
