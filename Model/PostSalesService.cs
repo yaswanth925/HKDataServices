@@ -1,18 +1,10 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-
-namespace HKDataServices.Model
+﻿namespace HKDataServices.Model
 {
-    public class PreSalesActivity
+    public class PostSalesService
     {
-        [Key]
-        public Guid PreSalesActivityID { get; set; }
-        [Required]
+        public Guid PostSalesServiceID { get; set; }
         public Guid CustomerID { get; set; }
-        public string? ActivityType { get; set; }
         public string? Description { get; set; }
-        public byte[] FileData { get; set; }
-        public string? PoValue { get; set; }
         public byte[] ImageFile { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? Created { get; set; }

@@ -1,4 +1,6 @@
-﻿namespace HKDataServices.Model
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HKDataServices.Model
 {
     public class ValidationMessages
     {
@@ -44,14 +46,28 @@
 
         //PreSalesActivityForm
 
-        public Guid? ActivityTypeID { get; set; }
+        public Guid? PreSalesActivityID { get; set; }
+        [Required]
+        public Guid CustomerID { get; set; }
         public string? ActivityType { get; set; }
-        public string? ActivityTypeEmpty { get; set; }
         public string? ActivityTypeInvalid { get; set; }
-        public bool? IsActive { get; set; }
         public string? Description { get; set; }
+      
         public string? POValue { get; set; }
-       
+
+        //PostSalesService
+
+        public Guid? PostSalesServiceID { get; set; }
+        
+
+
+
+
+
+
+
+
+
     }
 
 
