@@ -39,14 +39,20 @@ namespace HKDataServices.Service
         {
             byte[]? fileBytes = null;
 
-            if (dto.PhotoUpload != null && dto.PhotoUpload.Length > 0)
+            if (dto.ImageFile != null && dto.ImageFile.Length > 0)
             {
                 using (var ms = new MemoryStream())
                 {
-                    await dto.PhotoUpload.CopyToAsync(ms);
+                    await dto.ImageFile.CopyToAsync(ms);
                     fileBytes = ms.ToArray();
                 }
             }
+
+            if (!dto.ImageFile.ContentType.StartsWith("image/"))
+                throw new ArgumentException("Only image files are allowed for ImageFile.");
+
+            if (dto.ImageFile.Length > 5 * 1024 * 1024)
+                throw new ArgumentException("ImageFile is too large.");
 
             var entity = new Customers
             {
@@ -60,7 +66,7 @@ namespace HKDataServices.Service
                 City = dto.City,
                 State = dto.State,
                 Description = dto.Description,
-                PhotoUpload = fileBytes,
+                ImageFile = fileBytes,
                 CreatedBy = dto.CreatedBy,
                 Created = DateTime.UtcNow
             };

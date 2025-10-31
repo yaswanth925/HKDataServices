@@ -1,9 +1,8 @@
 ﻿using FluentValidation;
-using HKDataServices.Model.DTOs;
 using HKDataServices.Service;
+using HKDataServices.Model.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace HKDataServices.Controllers.API
 {
@@ -21,9 +20,11 @@ namespace HKDataServices.Controllers.API
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] UsersLoginDto dto)
         {
-            if (dto == null) return BadRequest("Request body is required.");
+            if (dto == null)
+                return BadRequest("Request body is required.");
 
             if (_validator != null)
             {
@@ -39,25 +40,37 @@ namespace HKDataServices.Controllers.API
                 return BadRequest("Password is required.");
 
             var auth = await _authService.AuthenticateAsync(dto.UserName, null, dto.Password);
+
             if (auth == null)
                 return Unauthorized(new { message = "Invalid username or password." });
 
-            return Ok(auth);
+            return Ok(new
+            {
+                message = "Login successful.",
+                token = auth.Token,
+                expiresAt = auth.ExpiresAt,
+                user = auth.User
+            });
         }
 
         [HttpGet("validate")]
+        [Authorize]
         public IActionResult ValidateToken()
         {
             var header = Request.Headers["Authorization"].FirstOrDefault();
-            if (string.IsNullOrWhiteSpace(header) || !header.StartsWith("Bearer ")) return Unauthorized();
+            if (string.IsNullOrWhiteSpace(header) || !header.StartsWith("Bearer "))
+                return Unauthorized();
 
             var token = header.Substring("Bearer ".Length).Trim();
             var valid = _authService.ValidateToken(token);
-            return valid ? Ok(new { message = "Token is valid." }) : Unauthorized(new { message = "Token is invalid or expired." });
+
+            return valid
+                ? Ok(new { message = "Token is valid." })
+                : Unauthorized(new { message = "Token is invalid or expired." });
         }
 
         [HttpPost("change-password")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
         {
             if (dto == null)
@@ -97,8 +110,13 @@ namespace HKDataServices.Controllers.API
         [AllowAnonymous]
         public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpDto dto)
         {
-            if (dto == null || string.IsNullOrWhiteSpace(dto.UserName) || string.IsNullOrWhiteSpace(dto.OtpCode))
-                return BadRequest("Username and OTP are required.");
+            if (dto == null ||
+                string.IsNullOrWhiteSpace(dto.UserName) ||
+                string.IsNullOrWhiteSpace(dto.OtpCode) ||
+                string.IsNullOrWhiteSpace(dto.NewPassword))
+            {
+                return BadRequest("Username, OTP, and NewPassword are required.");
+            }
 
             var result = await _authService.VerifyOtpAndChangePasswordAsync(dto);
 
@@ -109,4 +127,3 @@ namespace HKDataServices.Controllers.API
         }
     }
 }
-

@@ -2,7 +2,6 @@
 using HKDataServices.Model;
 using HKDataServices.Model.DTOs;
 using HKDataServices.Repository;
-using HKDataServices.Service;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -17,7 +16,7 @@ namespace HKDataServices.Service
         public UsersService(IUsersRepository repo, IValidator<UsersFormDto> validator, ILogger<UsersService> logger)
         {
             _repo = repo ?? throw new ArgumentNullException(nameof(repo));
-            _validator = validator;
+            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -44,6 +43,8 @@ namespace HKDataServices.Service
             dto.FirstName = dto.FirstName?.Trim();
             dto.LastName = dto.LastName?.Trim();
 
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+
             var entity = new Users
             {
                 ID = Guid.NewGuid(),
@@ -51,7 +52,7 @@ namespace HKDataServices.Service
                 LastName = dto.LastName,
                 MobileNumber = dto.MobileNumber,
                 EmailID = dto.EmailID,
-                Password = dto.Password, 
+                Password = hashedPassword, 
                 CreatedBy = dto.CreatedBy,
                 Created = DateTime.UtcNow,
                 ModifiedBy = dto.CreatedBy,
@@ -93,7 +94,7 @@ namespace HKDataServices.Service
             }
             catch (ValidationException)
             {
-                throw; 
+                throw;
             }
             catch (Exception ex)
             {
@@ -102,20 +103,14 @@ namespace HKDataServices.Service
             }
         }
 
-        public Task<Users?> GetByMobileNumberAsync(string mobileNumber, CancellationToken ct = default)
+        public Task<Users?> GetByEmailIDAsync(string EmailID, CancellationToken ct = default)
         {
-            if (string.IsNullOrWhiteSpace(mobileNumber))
-                throw new ArgumentException("Mobile number is required.", nameof(mobileNumber));
-
-            return _repo.GetByMobileNumberAsync(mobileNumber, ct);
+            throw new NotImplementedException();
         }
-        public Task<Users?> GetByEmailIDAsync(string emailID, CancellationToken ct = default)
+
+        public Task<Users?> GetByMobileNumberAsync(string MobileNumber, CancellationToken ct = default)
         {
-            if (string.IsNullOrWhiteSpace(emailID))
-                throw new ArgumentException("EmailID is required.", nameof(emailID));
-
-            return _repo.GetByEmailIDAsync(emailID, ct);
+            throw new NotImplementedException();
         }
-        
     }
 }

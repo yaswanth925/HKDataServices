@@ -14,6 +14,7 @@ namespace HKDataServices.Service
     {
         private readonly IAuthRepository _repo;
         private readonly JwtSettings _jwtSettings;
+
         public AuthService(IAuthRepository repo, IOptions<JwtSettings> jwtOptions)
         {
             _repo = repo ?? throw new ArgumentNullException(nameof(repo));
@@ -21,26 +22,51 @@ namespace HKDataServices.Service
         }
 
         public async Task<AuthResponseDto?> AuthenticateAsync(string? email, string? mobile, string password)
-        {
-            var user = await _repo.GetUserByEmailOrMobileAsync(email, mobile);
-            if (user == null) return null;
+{
+          var user = await _repo.GetUserByEmailOrMobileAsync(email, mobile);
+          if (user == null || !user.IsActive)
+            return null;
 
-            if (!user.IsActive) return null;
+           bool isPasswordValid = false;
 
-            var token = GenerateJwtToken(user, out DateTime expiresAt);
+           try
+           {
+        
+             if (user.Password.StartsWith("$2a$") || user.Password.StartsWith("$2b$") || user.Password.StartsWith("$2y$"))
+             {
+             isPasswordValid = BCrypt.Net.BCrypt.Verify(password, user.Password);
+             }
+             else
+             {
+              if (user.Password == password)
+              {
+                string newHashed = BCrypt.Net.BCrypt.HashPassword(password);
+                await _repo.UpdatePasswordAsync(user.EmailID ?? user.MobileNumber!, newHashed);
+                isPasswordValid = true;
+              }
+             }
+           }
+             catch
+             {
+              isPasswordValid = false;
+             }
+
+              if (!isPasswordValid)
+             return null; 
+             var token = GenerateJwtToken(user, out DateTime expiresAt);
 
             return new AuthResponseDto
             {
-                Token = token,
-                ExpiresAt = expiresAt,
-                User = new UsersResponseDto
-                {
-                    ID = user.ID,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    EmailID = user.EmailID,
-                    MobileNumber = user.MobileNumber ?? string.Empty
-                }
+               Token = token,
+               ExpiresAt = expiresAt,
+               User = new UsersResponseDto
+               {
+                ID = user.ID,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                EmailID = user.EmailID,
+                MobileNumber = user.MobileNumber ?? string.Empty
+               }
             };
         }
 
@@ -77,7 +103,6 @@ namespace HKDataServices.Service
             if (string.IsNullOrWhiteSpace(token)) return false;
 
             var handler = new JwtSecurityTokenHandler();
-
             var key = Encoding.UTF8.GetBytes(_jwtSettings.Key);
 
             try
@@ -92,7 +117,7 @@ namespace HKDataServices.Service
                     ValidAudience = _jwtSettings.Audience,
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.FromSeconds(30)
-                }, out SecurityToken validatedToken);
+                }, out _);
 
                 return true;
             }
@@ -106,6 +131,7 @@ namespace HKDataServices.Service
         {
             throw new NotImplementedException();
         }
+
         public async Task<(bool Success, string Message)> ChangePasswordAsync(ChangePasswordDto dto)
         {
             var user = await _repo.GetUserByEmailOrMobileAsync(dto.UserName, dto.UserName);
@@ -114,11 +140,13 @@ namespace HKDataServices.Service
 
             if (!user.IsActive)
                 return (false, "User account is inactive.");
-
-            if (user.Password != dto.CurrentPassword)
+            
+            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.Password);
+            if (!isPasswordValid)
                 return (false, "Current password is incorrect.");
 
-            var updated = await _repo.UpdatePasswordAsync(dto.UserName, dto.NewPassword);
+            string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+            var updated = await _repo.UpdatePasswordAsync(dto.UserName, newHashedPassword);
 
             if (!updated)
                 return (false, "Failed to update password.");
@@ -150,7 +178,8 @@ namespace HKDataServices.Service
             if (!otpResult.Success)
                 return (false, otpResult.Message);
 
-            var updated = await _repo.UpdatePasswordAsync(dto.UserName, dto.NewPassword);
+            string newHashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+            var updated = await _repo.UpdatePasswordAsync(dto.UserName, newHashedPassword);
             if (!updated)
                 return (false, "Failed to update password.");
 
@@ -158,6 +187,5 @@ namespace HKDataServices.Service
 
             return (true, "Password updated successfully.");
         }
-
     }
 }
