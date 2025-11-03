@@ -82,7 +82,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<PostSalesServiceDtoValidato
 ValidatorOptions.Global.LanguageManager.Enabled = true;
 ValidatorOptions.Global.LanguageManager.Culture = new System.Globalization.CultureInfo("en");
 
-// Register JwtSettings (appsettings.json → JwtSettings class)
+// Register JwtSettings 
 builder.Services.Configure<JwtSettings>(
     builder.Configuration.GetSection("Jwt"));
 
@@ -138,7 +138,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// ---------------- Custom Validation Messages ----------------
+// Custom Validation Messages
 builder.Services.Configure<ValidationMessages>(
     builder.Configuration.GetSection("ValidationMessages"));
 
@@ -164,14 +164,12 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 
 var app = builder.Build();
 
-// ---------------- Middleware ----------------
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "HKDataServices API v1");
 });
 
-// Important: Add Authentication + Authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
 

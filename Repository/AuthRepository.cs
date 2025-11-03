@@ -1,6 +1,5 @@
 ﻿using HKDataServices.Controllers.API;
 using HKDataServices.Model;
-using HKDataServices.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace HKDataServices.Repository
