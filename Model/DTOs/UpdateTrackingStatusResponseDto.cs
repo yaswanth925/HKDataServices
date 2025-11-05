@@ -4,7 +4,7 @@ namespace HKDataServices.Model.DTOs
 {
     public class UpdateTrackingStatusResponseDto
     {
-        public Guid ID { get; set; }
+        public Guid TrackingStatusID { get; set; }
         public string? AWBNumber { get; set; }
         public string? StatusType { get; set; }
         public string? FileName { get; set; }

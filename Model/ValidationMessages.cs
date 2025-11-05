@@ -44,7 +44,7 @@ namespace HKDataServices.Model
         public string? ImageFileEmpty { get; set; }
         public string? ImageFileMax { get; set; }
 
-        //PreSalesActivityForm
+        //PreSalesActivity
 
         public Guid? PreSalesActivityID { get; set; }
         [Required]

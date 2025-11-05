@@ -47,7 +47,7 @@ namespace HKDataServices.Service
 
             var entity = new Users
             {
-                ID = Guid.NewGuid(),
+                UserID = Guid.NewGuid(),
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 MobileNumber = dto.MobileNumber,
@@ -72,7 +72,7 @@ namespace HKDataServices.Service
 
                 return new UsersResponseDto
                 {
-                    ID = createdEntity.ID,
+                    UserID = createdEntity.UserID,
                     FirstName = createdEntity.FirstName,
                     LastName = createdEntity.LastName,
                     MobileNumber = createdEntity.MobileNumber,

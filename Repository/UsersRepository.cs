@@ -1,9 +1,6 @@
 ﻿using HKDataServices.Controllers.API;
 using HKDataServices.Model;
-using HKDataServices.Repository;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace HKDataServices.Repository
 {
@@ -28,7 +25,7 @@ namespace HKDataServices.Repository
                 .AsNoTracking()
                 .Where(x => x.MobileNumber == mobileNumber)
                 .OrderByDescending(x => x.Created)
-                .ThenByDescending(x => x.ID)
+                .ThenByDescending(x => x.UserID)
                 .FirstOrDefaultAsync(ct);
         }
 
@@ -38,7 +35,7 @@ namespace HKDataServices.Repository
                 .AsNoTracking()
                 .Where(x => x.EmailID == emailID)
                 .OrderByDescending(x => x.Created)
-                .ThenByDescending(x => x.ID)
+                .ThenByDescending(x => x.UserID)
                 .FirstOrDefaultAsync(ct);
         }
         

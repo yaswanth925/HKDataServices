@@ -61,7 +61,7 @@ namespace HKDataServices.Service
                ExpiresAt = expiresAt,
                User = new UsersResponseDto
                {
-                ID = user.ID,
+                UserID = user.UserID,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 EmailID = user.EmailID,

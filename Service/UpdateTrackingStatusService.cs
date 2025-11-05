@@ -23,7 +23,7 @@ public class UpdateTrackingStatusService(IUpdateTrackingStatusRepository repo) :
 
         var entity = new UpdateTrackingStatus
         {
-            ID = Guid.NewGuid(),
+            TrackingStatusID = Guid.NewGuid(),
             AWBNumber = dto.AWBNumber,
             StatusType = dto.StatusType,
             FileName = string.IsNullOrWhiteSpace(dto.FileName) ? dto.FileData.FileName : dto.FileName,

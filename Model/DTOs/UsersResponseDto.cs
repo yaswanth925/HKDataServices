@@ -4,7 +4,7 @@ namespace HKDataServices.Model.DTOs
 {
     public class UsersResponseDto
     {
-        public Guid ID { get; set; }
+        public Guid UserID { get; set; }
         [Required]
         public string FirstName { get; set; } 
         [Required]
