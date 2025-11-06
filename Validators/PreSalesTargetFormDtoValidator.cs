@@ -11,38 +11,42 @@ namespace HKDataServices.Validators
                 .NotEmpty().WithMessage("Employee Name is required.")
                 .MaximumLength(100).WithMessage("Employee Name cannot exceed 255 characters.");
 
-            RuleFor(x => x.MonthandYear)
-                .NotEmpty().WithMessage("Month and Year is required.")
-                .Matches(@"^(0[1-9]|1[0-2])-(19|20)\d{2}$")
-                .WithMessage("Month and Year must be in MM-YYYY format (e.g., 10-2025).");
+            RuleFor(x => x.MonthYear)
+            .NotEmpty().WithMessage("Month & Year is required.")
+            .Must(BeAValidMonthYear).WithMessage("Month & Year must be between 1900 and 2100.");
 
             RuleFor(x => x.TargetYear)
                 .NotEmpty().WithMessage("Target Year is required.")
-                .Matches(@"^(19|20)\d{2}$").WithMessage("Invalid year format.");
+                .InclusiveBetween(1900, 2100)
+                .WithMessage("Target Year must be between 1900 and 2100.");
 
             RuleFor(x => x.PreSalesVisit)
-                .NotEmpty().WithMessage("Pre-Sales Visit target is required.")
-                .Matches(@"^\d+$").WithMessage("Pre-Sales Visit must be a numeric value.");
+                .NotEmpty().WithMessage("Pre-Sales Visit target is required.");
+                
 
             RuleFor(x => x.PreSalesActivity)
-                .NotEmpty().WithMessage("Pre-Sales Activity target is required.")
-                .Matches(@"^\d+$").WithMessage("Pre-Sales Activity must be a numeric value.");
+                .NotEmpty().WithMessage("Pre Sales Activity is required.");
 
             RuleFor(x => x.PostSalesService)
-                .NotEmpty().WithMessage("Post-Sales Service target is required.")
-                .Matches(@"^\d+$").WithMessage("Post-Sales Service must be a numeric value.");
+                .NotEmpty().WithMessage("Post Sales Service is required.");
 
-            RuleFor(x => x.Createdby)
-                .NotEmpty().WithMessage("Created by is required.")
-                .MaximumLength(50).WithMessage("Created by cannot exceed 255 characters.");
+            RuleFor(x => x.CreatedBy)
+                .NotEmpty().WithMessage("Created By is required.")
+                .MaximumLength(50).WithMessage("Created By cannot exceed 255 characters.");
 
             RuleFor(x => x.Created)
                 .NotNull().WithMessage("Created date is required.");
 
-            RuleFor(x => x.Modifiedby)
-                .MaximumLength(50).WithMessage("Modified by cannot exceed 50 characters.")
-                .When(x => !string.IsNullOrEmpty(x.Modifiedby));
+            RuleFor(x => x.ModifiedBy)
+                .MaximumLength(50).WithMessage("Modified By cannot exceed 50 characters.")
+                .When(x => !string.IsNullOrEmpty(x.ModifiedBy));
 
+            RuleFor(x => x.Modified)
+                .NotNull().WithMessage("Modified date is required.");
+        }
+        private bool BeAValidMonthYear(DateTime date)
+        {
+            return date.Year >= 1900 && date.Year <= 2100;
         }
     }
 }

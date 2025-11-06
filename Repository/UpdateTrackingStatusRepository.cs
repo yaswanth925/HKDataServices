@@ -12,7 +12,7 @@ public class UpdateTrackingStatusRepository(ApplicationDbContext db) : IUpdateTr
         return await db.UpdateTrackingStatuses
             .AsNoTracking()
             .OrderByDescending(x => x.Created ?? DateTime.MinValue)
-            .ThenByDescending(x => x.ID)
+            .ThenByDescending(x => x.TrackingStatusID)
             .ToListAsync(ct);
     }
     public async Task<UpdateTrackingStatus> InsertAsync(UpdateTrackingStatus entity, CancellationToken ct = default)
@@ -27,7 +27,7 @@ public class UpdateTrackingStatusRepository(ApplicationDbContext db) : IUpdateTr
             .AsNoTracking()
             .Where(x => x.AWBNumber == awbNumber)
             .OrderByDescending(x => x.Created ?? DateTime.MinValue)
-            .ThenByDescending(x => x.ID)
+            .ThenByDescending(x => x.TrackingStatusID)
             .FirstOrDefaultAsync(ct);
     }
     public async Task<UpdateTrackingStatus?> GetByIDAsync(Guid id, CancellationToken ct = default)
@@ -36,9 +36,9 @@ public class UpdateTrackingStatusRepository(ApplicationDbContext db) : IUpdateTr
 
         return await db.UpdateTrackingStatuses
             .AsNoTracking()
-            .Where(x => x.ID == id)
+            .Where(x => x.TrackingStatusID == id)
             .OrderByDescending(x => x.Created ?? DateTime.MinValue)
-            .ThenByDescending(x => x.ID)
+            .ThenByDescending(x => x.TrackingStatusID)
             .FirstOrDefaultAsync(ct);
     }
     public async Task<List<UpdateTrackingStatus>> GetByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken ct)
@@ -53,7 +53,7 @@ public class UpdateTrackingStatusRepository(ApplicationDbContext db) : IUpdateTr
         return await db.UpdateTrackingStatuses
             .Where(x => x.AWBNumber == awbNumber)
             .OrderByDescending(x => x.Created ?? DateTime.MinValue)
-            .ThenByDescending(x => x.ID)
+            .ThenByDescending(x => x.TrackingStatusID)
             .FirstOrDefaultAsync(ct);
     }
 

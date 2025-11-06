@@ -1,7 +1,8 @@
-﻿namespace HKDataServices.Model
+﻿namespace HKDataServices.Model.DTOs
 {
-    public class PreSalesTarget
+    public class PreSalesTargetListDto
     {
+        public Guid ListID { get; set; }
         public Guid TargetID { get; set; }
         public string EmployeeName { get; set; }
         public DateTime MonthYear { get; set; }
@@ -13,6 +14,5 @@
         public DateTime? Created { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime? Modified { get; set; }
-        public ICollection<PreSalesTargetList>? TargetListItems { get; set; }
     }
 }

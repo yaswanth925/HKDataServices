@@ -19,7 +19,7 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
 
         var response = entities.Select(entity => new UpdateTrackingStatusResponseDto
         {
-            ID = entity.ID,
+            TrackingStatusID = entity.TrackingStatusID,
             AWBNumber = entity.AWBNumber,
             StatusType = entity.StatusType,
             FileName = entity.FileName,
@@ -47,7 +47,7 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
 
         var response = new UpdateTrackingStatusResponseDto
         {
-            ID = entity.ID,
+            TrackingStatusID = entity.TrackingStatusID,
             AWBNumber = entity.AWBNumber,
             StatusType = entity.StatusType,
             FileName = entity.FileName,
@@ -73,7 +73,7 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
 
         var response = new UpdateTrackingStatusResponseDto
         {
-            ID = entity.ID,
+            TrackingStatusID = entity.TrackingStatusID,
             AWBNumber = entity.AWBNumber,
             StatusType = entity.StatusType,
             FileName = entity.FileName,
@@ -102,7 +102,7 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
         if (entity is null) return NotFound();
         var response = entity.Select(entity => new UpdateTrackingStatusResponseDto
         {
-            ID = entity.ID,
+            TrackingStatusID = entity.TrackingStatusID,
             AWBNumber = entity.AWBNumber,
             StatusType = entity.StatusType,
             FileName = entity.FileName,
@@ -127,7 +127,7 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
 
         var response = new
         {
-            created.ID,
+            created.TrackingStatusID,
             created.AWBNumber,
             created.StatusType,
             created.FileName,
@@ -150,7 +150,7 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
 
         var response = new UpdateTrackingStatusResponseDto
         {
-            ID = updated.ID,
+            TrackingStatusID = updated.TrackingStatusID,
             AWBNumber = updated.AWBNumber,
             StatusType = updated.StatusType,
             FileName = updated.FileName,
@@ -182,7 +182,7 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
 
         var response = new UpdateTrackingStatusResponseDto
         {
-            ID = updated.ID,
+            TrackingStatusID = updated.TrackingStatusID,
             AWBNumber = updated.AWBNumber,
             StatusType = updated.StatusType,
             FileName = updated.FileName,

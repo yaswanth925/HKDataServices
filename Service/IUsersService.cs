@@ -1,7 +1,5 @@
 ﻿using HKDataServices.Model;
 using HKDataServices.Model.DTOs;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace HKDataServices.Service
 {

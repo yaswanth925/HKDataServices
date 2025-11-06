@@ -13,11 +13,11 @@ namespace HKDataServices.Controllers.API
         public DbSet<UpdateTrackingStatus> UpdateTrackingStatuses { get; set; } = null;
         public DbSet<Users> Users { get; set; } = null;
         public DbSet<OtpRecord> OtpRecords { get; set; }
-        public DbSet<PreSalesTarget> PreSalesTargets { get; set; }
+        public DbSet<PreSalesTarget> PreSalesTarget { get; set; }
         public DbSet<Customers> Customers { get; set; }
         public DbSet<PreSalesActivity> PreSalesActivity { get; set; }
         public DbSet<PostSalesService> PostSalesService { get; set; }
-
+        public DbSet<PreSalesTargetList> PreSalesTargetList { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,9 +26,9 @@ namespace HKDataServices.Controllers.API
             modelBuilder.Entity<UpdateTrackingStatus>(entity =>
             {
                 entity.ToTable("UpdateTrackingStatus");
-                entity.HasKey(e => e.ID);
+                entity.HasKey(e => e.TrackingStatusID);
 
-                entity.Property(e => e.ID)
+                entity.Property(e => e.TrackingStatusID)
                       .ValueGeneratedOnAdd()
                       .HasDefaultValueSql("newid()");
 
@@ -71,9 +71,9 @@ namespace HKDataServices.Controllers.API
             modelBuilder.Entity<Users>(entity =>
             {
                 entity.ToTable("Users");
-                entity.HasKey(e => e.ID);
+                entity.HasKey(e => e.UserID);
 
-                entity.Property(e => e.ID)
+                entity.Property(e => e.UserID)
                       .ValueGeneratedOnAdd()
                       .HasDefaultValueSql("newid()");
 
@@ -121,10 +121,103 @@ namespace HKDataServices.Controllers.API
             modelBuilder.Entity<PreSalesTarget>(entity =>
             {
                 entity.ToTable("PreSalesTarget");
-                entity.HasKey(e => e.EmployeeName);
+
+                entity.HasKey(e => e.TargetID);
+
+                entity.Property(e => e.TargetID)
+                      .IsRequired()
+                      .ValueGeneratedOnAdd();
+
                 entity.Property(e => e.EmployeeName)
                       .HasMaxLength(255)
                       .IsUnicode(false);
+
+                entity.Property(e => e.MonthYear)
+                      .IsRequired();
+
+                entity.Property(e => e.TargetYear)
+                      .IsRequired();
+
+                entity.Property(e => e.PreSalesVisit)
+                      .IsRequired();
+
+                entity.Property(e => e.PreSalesActivity)
+                      .IsRequired();
+
+                entity.Property(e => e.PostSalesService)
+                      .IsRequired();
+
+                entity.Property(e => e.CreatedBy)
+                      .HasMaxLength(255)
+                      .IsUnicode(false);
+
+                entity.Property(e => e.Created)
+                      .HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedBy)
+                      .HasMaxLength(255)
+                      .IsUnicode(false);
+
+                entity.Property(e => e.Modified)
+                      .HasColumnType("datetime");
+
+                entity.HasMany(e => e.TargetListItems)
+                      .WithOne(e => e.PreSalesTarget)
+                      .HasForeignKey(e => e.TargetID)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<PreSalesTargetList>(entity =>
+            {
+                entity.ToTable("PreSalesTargetList");
+
+                entity.HasKey(e => e.ListID);
+
+                entity.Property(e => e.ListID)
+                      .IsRequired()
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.TargetID)
+                      .IsRequired();
+
+                entity.Property(e => e.EmployeeName)
+                      .HasMaxLength(255)
+                      .IsUnicode(false);
+
+                entity.Property(e => e.MonthYear)
+                      .IsRequired();
+
+                entity.Property(e => e.TargetYear)
+                      .IsRequired();
+
+                entity.Property(e => e.PreSalesVisit)
+                      .IsRequired();
+
+                entity.Property(e => e.PreSalesActivity)
+                      .IsRequired();
+
+                entity.Property(e => e.PostSalesService)
+                      .IsRequired();
+
+                entity.Property(e => e.CreatedBy)
+                      .HasMaxLength(255)
+                      .IsUnicode(false);
+
+                entity.Property(e => e.Created)
+                      .HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedBy)
+                      .HasMaxLength(255)
+                      .IsUnicode(false);
+
+                entity.Property(e => e.Modified)
+                      .HasColumnType("datetime");
+
+          
+                entity.HasOne(e => e.PreSalesTarget)
+                      .WithMany(e => e.TargetListItems)
+                      .HasForeignKey(e => e.TargetID)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Customers>(entity =>
@@ -152,9 +245,9 @@ namespace HKDataServices.Controllers.API
             modelBuilder.Entity<PreSalesActivity>(entity =>
             {
                 entity.ToTable("PreSalesActivity");
-                entity.HasKey(e => e.PreSalesActivityID);
+                entity.HasKey(e => e.ActivityID);
 
-                entity.Property(e => e.PreSalesActivityID)
+                entity.Property(e => e.ActivityID)
                       .IsRequired()
                       .ValueGeneratedOnAdd();
 
@@ -188,9 +281,9 @@ namespace HKDataServices.Controllers.API
             modelBuilder.Entity<PostSalesService>(entity =>
             {
                 entity.ToTable("PostSalesService");
-                entity.HasKey(e => e.PostSalesServiceID);
+                entity.HasKey(e => e.ServiceID);
 
-                entity.Property(e => e.PostSalesServiceID)
+                entity.Property(e => e.ServiceID)
                       .IsRequired()
                       .ValueGeneratedOnAdd();
 
@@ -210,10 +303,11 @@ namespace HKDataServices.Controllers.API
                 entity.Property(e => e.Modified)
                       .HasColumnType("datetime");
             });
-    }   }
+        }
+    }
 }
 
 
-        
-    
+
+
 

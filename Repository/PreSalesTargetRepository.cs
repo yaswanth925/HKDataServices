@@ -1,6 +1,5 @@
 ﻿using HKDataServices.Controllers.API;
 using HKDataServices.Model;
-using HKDataServices.Repository;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -15,17 +14,30 @@ namespace HKDataServices.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<PreSalesTarget>> GetByEmployeeNameAsync(string employeeName)
+        public async Task<IEnumerable<PreSalesTarget>> GetAllAsync()
         {
-            return await _context.PreSalesTargets
-             .Where(x => !string.IsNullOrEmpty(x.EmployeeName) && x.EmployeeName.ToLower() == employeeName.ToLower())
-             .ToListAsync();
+            return await _context.Set<PreSalesTarget>().ToListAsync();
         }
 
-        public async Task AddAsync(PreSalesTarget target)
+        public async Task<PreSalesTarget> GetByEmployeeNameAsync(string employeeName)
         {
-            await _context.PreSalesTargets.AddAsync(target);
+            return await _context.Set<PreSalesTarget>().FindAsync(employeeName);
+        }
+
+        public async Task AddAsync(PreSalesTarget entity)
+        {
+            entity.TargetID = Guid.NewGuid();
+            entity.Created = DateTime.UtcNow;
+            _context.Set<PreSalesTarget>().Add(entity);
             await _context.SaveChangesAsync();
         }
+
+        public async Task UpdateAsync(PreSalesTarget entity)
+        {
+            entity.Modified = DateTime.UtcNow;
+            _context.Set<PreSalesTarget>().Update(entity);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

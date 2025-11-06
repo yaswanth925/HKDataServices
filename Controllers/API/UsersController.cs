@@ -28,7 +28,7 @@ namespace HKDataServices.Controllers.API
 
             var response = new UsersResponseDto
             {
-                ID = created.ID,
+                UserID = created.UserID,
                 FirstName = created.FirstName,
                 LastName = created.LastName,
                 MobileNumber = created.MobileNumber,
@@ -39,7 +39,7 @@ namespace HKDataServices.Controllers.API
                 
             };
 
-            return CreatedAtAction(nameof(Post), new { id = response.ID }, response);
+            return CreatedAtAction(nameof(Post), new { id = response.UserID }, response);
         }
         [HttpGet("by-mobile/{mobileNumber}")]
         [ProducesResponseType(typeof(UsersResponseDto), StatusCodes.Status200OK)]
@@ -55,7 +55,7 @@ namespace HKDataServices.Controllers.API
 
             var response = new UsersResponseDto
             {
-                ID = entity.ID,
+                UserID = entity.UserID,
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
                 MobileNumber = entity.MobileNumber,
@@ -84,7 +84,7 @@ namespace HKDataServices.Controllers.API
 
             var response = new UsersResponseDto
             {
-                ID = entity.ID,
+                UserID = entity.UserID,
                 FirstName = entity.FirstName,
                 LastName = entity.LastName,
                 MobileNumber = entity.MobileNumber,

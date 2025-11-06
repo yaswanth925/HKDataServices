@@ -6,7 +6,7 @@ namespace HKDataServices.Model
     public class PreSalesActivity
     {
         [Key]
-        public Guid PreSalesActivityID { get; set; }
+        public Guid ActivityID { get; set; }
         [Required]
         public Guid CustomerID { get; set; }
         public string? ActivityType { get; set; }

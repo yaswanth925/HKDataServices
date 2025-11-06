@@ -5,7 +5,7 @@ namespace HKDataServices.Model.DTOs
     public class PreSalesActivityResponseDto
     {
         [Required]
-        public Guid PreSalesActivityID { get; set; }
+        public Guid ActivityID { get; set; }
 
         [Required]
         public Guid CustomerID { get; set; }
