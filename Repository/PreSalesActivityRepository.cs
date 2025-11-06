@@ -24,7 +24,7 @@ namespace HKDataServices.Repository
         {
             return await _context.PreSalesActivity
                 .AsNoTracking()
-                .FirstOrDefaultAsync(psa => psa.PreSalesActivityID == id, ct);
+                .FirstOrDefaultAsync(psa => psa.ActivityID == id, ct);
         }
 
         public async Task CreateAsync(PreSalesActivity entity, CancellationToken ct)

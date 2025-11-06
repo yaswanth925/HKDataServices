@@ -23,7 +23,7 @@ namespace HKDataServices.Service
 
             return entities.Select(e => new PostSalesServiceDto
             {
-                PostSalesServiceID = e.PostSalesServiceID,
+                ServiceID = e.ServiceID,
                 CustomerID = e.CustomerID,                
                 Description = e.Description,
                 CreatedBy = e.CreatedBy,
@@ -39,7 +39,7 @@ namespace HKDataServices.Service
 
             return new PostSalesServiceDto
             {
-                PostSalesServiceID = e.PostSalesServiceID,
+                ServiceID = e.ServiceID,
                 CustomerID = e.CustomerID,              
                 Description = e.Description,               
                 CreatedBy = e.CreatedBy,
@@ -74,7 +74,7 @@ namespace HKDataServices.Service
 
             var entity = new PostSalesService
             {
-                PostSalesServiceID = Guid.NewGuid(),
+                ServiceID = Guid.NewGuid(),
                 CustomerID = dto.CustomerID,
                 Description = dto.Description ?? string.Empty,
                 ImageFile = imageBytes,
@@ -87,7 +87,7 @@ namespace HKDataServices.Service
 
             return new PostSalesServiceDto
             {
-                PostSalesServiceID = entity.PostSalesServiceID,
+                ServiceID = entity.ServiceID,
                 CustomerID = entity.CustomerID,            
                 Description = entity.Description,               
                 CreatedBy = entity.CreatedBy,

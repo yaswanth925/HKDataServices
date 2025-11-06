@@ -24,7 +24,7 @@ namespace HKDataServices.Repository
         {
             return await _context.PostSalesService
                 .AsNoTracking()
-                .FirstOrDefaultAsync(psa => psa.PostSalesServiceID == id, ct);
+                .FirstOrDefaultAsync(psa => psa.ServiceID == id, ct);
         }
 
         public async Task CreateAsync(PostSalesService entity, CancellationToken ct)

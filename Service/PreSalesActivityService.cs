@@ -23,7 +23,7 @@ namespace HKDataServices.Service
 
             return entities.Select(e => new PreSalesActivityDto
             {
-                PreSalesActivityID = e.PreSalesActivityID,
+                ActivityID = e.ActivityID,
                 CustomerID = e.CustomerID,
                 ActivityType = e.ActivityType,
                 Description = e.Description,
@@ -42,7 +42,7 @@ namespace HKDataServices.Service
 
             return new PreSalesActivityDto
             {
-                PreSalesActivityID = e.PreSalesActivityID,
+                ActivityID = e.ActivityID,
                 CustomerID = e.CustomerID,
                 ActivityType = e.ActivityType,
                 Description = e.Description,
@@ -90,7 +90,7 @@ namespace HKDataServices.Service
 
             var entity = new PreSalesActivity
             {
-                PreSalesActivityID = Guid.NewGuid(),
+                ActivityID = Guid.NewGuid(),
                 CustomerID = dto.CustomerID,
                 ActivityType = dto.ActivityType ?? string.Empty,
                 Description = dto.Description ?? string.Empty,
@@ -106,7 +106,7 @@ namespace HKDataServices.Service
 
             return new PreSalesActivityDto
             {
-                PreSalesActivityID = entity.PreSalesActivityID,
+                ActivityID = entity.ActivityID,
                 CustomerID = entity.CustomerID,
                 ActivityType = entity.ActivityType,
                 Description = entity.Description,

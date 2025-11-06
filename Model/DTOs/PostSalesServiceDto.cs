@@ -2,7 +2,7 @@
 {
     public class PostSalesServiceDto
     {
-        public Guid PostSalesServiceID { get; set; }
+        public Guid ServiceID { get; set; }
         public Guid CustomerID { get; set; }
         public string? Description { get; set; }
         public IFormFile ImageFile { get; set; } = default!;

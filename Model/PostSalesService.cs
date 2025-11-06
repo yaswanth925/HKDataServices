@@ -2,7 +2,7 @@
 {
     public class PostSalesService
     {
-        public Guid PostSalesServiceID { get; set; }
+        public Guid ServiceID { get; set; }
         public Guid CustomerID { get; set; }
         public string? Description { get; set; }
         public byte[] ImageFile { get; set; }

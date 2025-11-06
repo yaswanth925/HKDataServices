@@ -1,8 +1,14 @@
-﻿namespace HKDataServices.Model
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace HKDataServices.Model
 {
-    public class PreSalesTarget
+    public class PreSalesTargetList
     {
+        public Guid ListID { get; set; }
         public Guid TargetID { get; set; }
+
+        [ForeignKey(nameof(TargetID))]
+        public PreSalesTarget? PreSalesTarget { get; set; }
         public string EmployeeName { get; set; }
         public DateTime MonthYear { get; set; }
         public int TargetYear { get; set; }
@@ -13,6 +19,5 @@
         public DateTime? Created { get; set; }
         public string ModifiedBy { get; set; }
         public DateTime? Modified { get; set; }
-        public ICollection<PreSalesTargetList>? TargetListItems { get; set; }
     }
 }

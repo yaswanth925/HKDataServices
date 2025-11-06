@@ -4,7 +4,7 @@ namespace HKDataServices.Model.DTOs
 {
     public class PreSalesActivityDto
     {
-        public Guid PreSalesActivityID { get; set; }
+        public Guid ActivityID { get; set; }
         public Guid CustomerID { get; set; }
         public string? ActivityType { get; set; }
         public string? Description { get; set; }
