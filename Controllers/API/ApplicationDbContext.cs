@@ -18,7 +18,7 @@ namespace HKDataServices.Controllers.API
         public DbSet<PreSalesActivity> PreSalesActivity { get; set; }
         public DbSet<PostSalesService> PostSalesService { get; set; }
         public DbSet<PreSalesTargetList> PreSalesTargetList { get; set; }
-
+        public DbSet<Accounts> Accounts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -241,6 +241,21 @@ namespace HKDataServices.Controllers.API
                 entity.Property(e => e.City).HasMaxLength(20);
                 entity.Property(e => e.State).HasMaxLength(20);
                 entity.Property(e => e.Description).HasMaxLength(255);
+                entity.Property(e => e.ImageFile)
+                      .HasColumnType("varbinary(max)");
+                entity.Property(e => e.CreatedBy)
+                      .HasMaxLength(255)
+                      .IsUnicode(false);
+
+                entity.Property(e => e.Created)
+                      .HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedBy)
+                      .HasMaxLength(255)
+                      .IsUnicode(false);
+
+                entity.Property(e => e.Modified)
+                      .HasColumnType("datetime");
             });
             modelBuilder.Entity<PreSalesActivity>(entity =>
             {
@@ -299,6 +314,43 @@ namespace HKDataServices.Controllers.API
 
                       .HasColumnType("datetime");
                 entity.Property(e => e.ModifiedBy).HasMaxLength(255);
+
+                entity.Property(e => e.Modified)
+                      .HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Accounts>(entity =>
+            {
+                entity.ToTable("Accounts");
+                entity.HasKey(e => e.AccountID);
+
+                entity.Property(e => e.AccountID)
+                      .IsRequired()
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.CustomerName)
+                      .HasMaxLength(255)
+                      .IsUnicode(false);
+
+                entity.Property(e => e.MobileNumber).HasMaxLength(15);
+                entity.Property(e => e.GSTNumber).HasMaxLength(50);
+                entity.Property(e => e.Pincode).HasMaxLength(10);
+                entity.Property(e => e.City).HasMaxLength(20);
+                entity.Property(e => e.State).HasMaxLength(20);
+                entity.Property(e => e.Sales)
+                       .IsRequired();
+                entity.Property(e => e.FileData)
+                      .HasColumnType("varbinary(max)");
+                entity.Property(e => e.CreatedBy)
+                      .HasMaxLength(255)
+                      .IsUnicode(false);
+
+                entity.Property(e => e.Created)
+                      .HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedBy)
+                      .HasMaxLength(255)
+                      .IsUnicode(false);
 
                 entity.Property(e => e.Modified)
                       .HasColumnType("datetime");

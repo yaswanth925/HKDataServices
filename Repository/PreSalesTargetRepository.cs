@@ -21,8 +21,11 @@ namespace HKDataServices.Repository
 
         public async Task<PreSalesTarget> GetByEmployeeNameAsync(string employeeName)
         {
-            return await _context.Set<PreSalesTarget>().FindAsync(employeeName);
+            return await _context.PreSalesTarget
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.EmployeeName == employeeName);
         }
+
 
         public async Task AddAsync(PreSalesTarget entity)
         {

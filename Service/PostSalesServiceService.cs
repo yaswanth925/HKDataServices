@@ -96,10 +96,28 @@ namespace HKDataServices.Service
 
         }
 
-        Task<PostSalesServiceDto?> IPostSalesServiceService.GetByIdAsync(Guid id, CancellationToken ct)
+        public async Task<PostSalesServiceDto?> GetByServiceIdAsync(Guid serviceid, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            if (serviceid == Guid.Empty)
+                throw new ArgumentException("Invalid ID value.", nameof(serviceid));
+
+            var entity = await _repo.GetByIdAsync(serviceid, ct);
+
+            if (entity == null)
+                return null;
+
+            return new PostSalesServiceDto
+            {
+                ServiceID = entity.ServiceID,
+                CustomerID = entity.CustomerID,
+                Description = entity.Description,
+                CreatedBy = entity.CreatedBy,
+                Created = entity.Created,
+                ModifiedBy = entity.ModifiedBy,
+                Modified = entity.Modified,
+            };
         }
+
 
         public Task<bool> UpdateAsync(Guid id, PostSalesServiceDto dto, CancellationToken ct)
         {

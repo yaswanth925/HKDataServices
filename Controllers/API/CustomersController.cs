@@ -18,7 +18,6 @@ namespace HKDataServices.Controllers.API
             _service = service;
         }
 
-        // 🔹 POST: api/Customers
         [HttpPost]
         [ProducesResponseType(typeof(CustomersResponseDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
