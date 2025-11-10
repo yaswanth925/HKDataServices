@@ -9,12 +9,12 @@ namespace HKDataServices.Service
     public class UsersService : IUsersService
     {
         private readonly IUsersRepository _repo;
-        private readonly IValidator<UsersFormDto> _validator;
+        private readonly IValidator<UsersDto> _validator;
         private readonly ILogger<UsersService> _logger;
 
         public UsersService(
             IUsersRepository repo,
-            IValidator<UsersFormDto> validator,
+            IValidator<UsersDto> validator,
             ILogger<UsersService> logger)
         {
             _repo = repo ?? throw new ArgumentNullException(nameof(repo));
@@ -22,11 +22,11 @@ namespace HKDataServices.Service
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<UsersResponseDto> CreateUsersAsync(UsersFormDto dto, CancellationToken ct = default)
+        public async Task<UsersResponseDto> CreateUsersAsync(UsersDto dto, CancellationToken ct = default)
         {
             if (dto is null)
             {
-                _logger.LogError("Received null UsersFormDto in CreateUsersAsync");
+                _logger.LogError("Received null UsersDto in CreateUsersAsync");
                 throw new ArgumentNullException(nameof(dto));
             }
 

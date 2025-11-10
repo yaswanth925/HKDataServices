@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace HKDataServices.Validators
 {
-    public class UsersFormDtoValidator : AbstractValidator<UsersFormDto>
+    public class UsersFormDtoValidator : AbstractValidator<UsersDto>
     {
         private readonly ValidationMessages _messages;
 

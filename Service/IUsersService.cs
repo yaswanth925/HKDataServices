@@ -5,7 +5,7 @@ namespace HKDataServices.Service
 {
     public interface IUsersService
     {
-        Task<UsersResponseDto> CreateUsersAsync(UsersFormDto dto, CancellationToken ct = default);
+        Task<UsersResponseDto> CreateUsersAsync(UsersDto dto, CancellationToken ct = default);
         Task<Users?> GetByMobileNumberAsync(string MobileNumber, CancellationToken ct = default);
         Task<Users?> GetByEmailIDAsync(string EmailID, CancellationToken ct = default);
     }

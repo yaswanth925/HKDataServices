@@ -22,7 +22,7 @@ namespace HKDataServices.Controllers.API
         [HttpPost]
         [ProducesResponseType(typeof(UsersResponseDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] UsersFormDto form, CancellationToken ct)
+        public async Task<IActionResult> Post([FromForm] UsersDto form, CancellationToken ct)
         {
             var created = await _service.CreateUsersAsync(form, ct);
 

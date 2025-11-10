@@ -21,7 +21,7 @@ namespace HKDataServices.Controllers.API
 
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] UsersLoginDto dto)
+        public async Task<IActionResult> Login([FromForm] UsersLoginDto dto)
         {
             if (dto == null)
                 return BadRequest("Request body is required.");
@@ -71,7 +71,7 @@ namespace HKDataServices.Controllers.API
 
         [HttpPost("change-password")]
         [Authorize]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        public async Task<IActionResult> ChangePassword([FromForm] ChangePasswordDto dto)
         {
             if (dto == null)
                 return BadRequest("Request body is required.");
@@ -93,7 +93,7 @@ namespace HKDataServices.Controllers.API
 
         [HttpPost("forgot-password")]
         [AllowAnonymous]
-        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequestDto dto)
+        public async Task<IActionResult> ForgotPassword([FromForm] ForgotPasswordRequestDto dto)
         {
             if (dto == null || string.IsNullOrWhiteSpace(dto.UserName))
                 return BadRequest("Username (email or phone) is required.");
@@ -108,7 +108,7 @@ namespace HKDataServices.Controllers.API
 
         [HttpPost("verify-otp")]
         [AllowAnonymous]
-        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpDto dto)
+        public async Task<IActionResult> VerifyOtp([FromForm] VerifyOtpDto dto)
         {
             if (dto == null ||
                 string.IsNullOrWhiteSpace(dto.UserName) ||
