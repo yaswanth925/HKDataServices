@@ -18,18 +18,17 @@ namespace HKDataServices.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(CancellationToken ct)
         {
-            var result = await _service.GetAllAsync();
+            var result = await _service.GetAllAsync(ct);
             return Ok(result);
         }
 
         [HttpGet("{employeeName}")]
-        public async Task<IActionResult> GetByEmployeeName(string employeeName)
+        public async Task<IActionResult> GetByEmployeeName(string employeeName, CancellationToken ct)
         {
-            var result = await _service.GetByEmployeeNameAsync(employeeName);
-            if (result == null)
-                return NotFound();
+            var result = await _service.GetByEmployeeNameAsync(employeeName,ct);
+            if (result == null) return NotFound();
             return Ok(result);
         }
 

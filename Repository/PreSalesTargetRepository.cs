@@ -14,18 +14,19 @@ namespace HKDataServices.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<PreSalesTarget>> GetAllAsync()
-        {
-            return await _context.Set<PreSalesTarget>().ToListAsync();
-        }
-
-        public async Task<PreSalesTarget> GetByEmployeeNameAsync(string employeeName)
+        public async Task<IEnumerable<PreSalesTarget>> GetAllAsync(CancellationToken ct)
         {
             return await _context.PreSalesTarget
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.EmployeeName == employeeName);
+                .ToListAsync(ct);
         }
 
+        public async Task<PreSalesTarget> GetByEmployeeNameAsync(string employeeName, CancellationToken ct)
+        {
+            return await _context.PreSalesTarget
+                .AsNoTracking()
+                .FirstOrDefaultAsync(psa => psa.EmployeeName == employeeName,ct);
+        }
 
         public async Task AddAsync(PreSalesTarget entity)
         {

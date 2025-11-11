@@ -55,7 +55,7 @@ namespace HKDataServices.Controllers.API
 
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateAsync(Guid id, [FromBody] PreSalesActivityDto dto, CancellationToken ct)
+        public async Task<IActionResult> UpdateAsync(Guid id, [FromForm] PreSalesActivityDto dto, CancellationToken ct)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

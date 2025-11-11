@@ -32,16 +32,17 @@ namespace HKDataServices.Service
                 Modified = e.Modified
             });
         }
-        public async Task<PostSalesServiceDto?> GetByIdAsync(Guid id, CancellationToken ct)
+        public async Task<PostSalesServiceResponseDto?> GetByIdAsync(Guid id, CancellationToken ct)
         {
             var e = await _repo.GetByIdAsync(id, ct);
             if (e == null) return null;
 
-            return new PostSalesServiceDto
+            return new PostSalesServiceResponseDto
             {
                 ServiceID = e.ServiceID,
                 CustomerID = e.CustomerID,              
-                Description = e.Description,               
+                Description = e.Description,
+                ImageFile   = e.ImageFile,
                 CreatedBy = e.CreatedBy,
                 Created = e.Created,
                 ModifiedBy = e.ModifiedBy,
@@ -96,7 +97,7 @@ namespace HKDataServices.Service
 
         }
 
-        public async Task<PostSalesServiceDto?> GetByServiceIdAsync(Guid serviceid, CancellationToken ct)
+        public async Task<PostSalesServiceResponseDto?> GetByServiceIdAsync(Guid serviceid, CancellationToken ct)
         {
             if (serviceid == Guid.Empty)
                 throw new ArgumentException("Invalid ID value.", nameof(serviceid));
@@ -106,7 +107,7 @@ namespace HKDataServices.Service
             if (entity == null)
                 return null;
 
-            return new PostSalesServiceDto
+            return new PostSalesServiceResponseDto
             {
                 ServiceID = entity.ServiceID,
                 CustomerID = entity.CustomerID,

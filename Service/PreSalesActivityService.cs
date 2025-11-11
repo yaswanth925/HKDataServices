@@ -35,18 +35,20 @@ namespace HKDataServices.Service
             });
         }
 
-        public async Task<PreSalesActivityDto?> GetByIdAsync(Guid id, CancellationToken ct)
+        public async Task<PreSalesActivityResponseDto?> GetByIdAsync(Guid id, CancellationToken ct)
         {
             var e = await _repo.GetByIdAsync(id, ct);
             if (e == null) return null;
 
-            return new PreSalesActivityDto
+            return new PreSalesActivityResponseDto
             {
                 ActivityID = e.ActivityID,
                 CustomerID = e.CustomerID,
                 ActivityType = e.ActivityType,
                 Description = e.Description,
                 PoValue = e.PoValue,
+                FileData = e.FileData,
+                ImageFile = e.ImageFile,
                 CreatedBy = e.CreatedBy,
                 Created = e.Created,
                 ModifiedBy = e.ModifiedBy,
