@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HKDataServices.Controllers.API;
-
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]

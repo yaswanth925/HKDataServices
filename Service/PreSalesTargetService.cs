@@ -2,7 +2,6 @@
 using HKDataServices.Model;
 using HKDataServices.Model.DTOs;
 using HKDataServices.Repository;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace HKDataServices.Service
@@ -70,9 +69,5 @@ namespace HKDataServices.Service
             await _repository.UpdateAsync(entity);
         }
 
-        public Task<PreSalesTargetResponseDto> GetByEmployeeNameAsync(string employeeName)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

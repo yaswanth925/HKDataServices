@@ -1,8 +1,8 @@
-﻿
-using HKDataServices.Model.DTOs;
+﻿using HKDataServices.Model.DTOs;
 using HKDataServices.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HKDataServices.Controllers.API
 {
@@ -12,10 +12,21 @@ namespace HKDataServices.Controllers.API
     public class CustomersController : ControllerBase
     {
         private readonly ICustomersService _service;
-
-        public CustomersController(ICustomersService service)
+        private readonly ApplicationDbContext _context;
+        public CustomersController(ICustomersService service, ApplicationDbContext context)
         {
             _service = service;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(List<CustomersDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<CustomersDto>>> GetAllAsync(CancellationToken ct)
+        {
+            var customers = await _service.GetAllAsync(ct);
+            if (customers == null || !customers.Any()) return NotFound("No customers found.");
+            return Ok(customers);
         }
 
         [HttpPost]
@@ -140,6 +151,76 @@ namespace HKDataServices.Controllers.API
             }).ToList();
 
             return Ok(response);
+        }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateAsync([FromForm] CustomersDto dto, CancellationToken ct)
+
+        {
+            if (dto == null || dto.CustomerID == Guid.Empty)
+                return BadRequest("Invalid customer data.");
+
+            var customer = await _context.Customers
+                .FirstOrDefaultAsync(c => c.CustomerID == dto.CustomerID, ct);
+
+            if (customer == null)
+                return NotFound($"Customer with ID {dto.CustomerID} not found.");
+            customer.CustomerName = dto.CustomerName;
+            customer.MobileNumber = dto.MobileNumber;
+            customer.EmailId = dto.EmailId;
+            customer.GSTNumber = dto.GSTNumber;
+            customer.Address = dto.Address;
+            customer.Pincode = dto.Pincode;
+            customer.City = dto.City;
+            customer.State = dto.State;
+            customer.Description = dto.Description;
+            customer.ModifiedBy = dto.ModifiedBy;
+            customer.Modified = DateTime.UtcNow;
+
+            _context.Customers.Update(customer);
+            await _context.SaveChangesAsync(ct);
+
+            return Ok("Customer updated successfully.");
+        }
+
+        [HttpPatch("{id:guid}")]
+        public async Task<IActionResult> PatchAsync(Guid id, [FromForm] CustomersPatchDto dto, CancellationToken ct)
+        {
+            if (dto == null)
+                return BadRequest("Invalid customer data.");
+
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.CustomerID == id, ct);
+
+            if (customer == null)
+                return NotFound($"Customer with ID {id} not found.");
+
+            if (!string.IsNullOrWhiteSpace(dto.CustomerName))
+                customer.CustomerName = dto.CustomerName;
+
+            if (!string.IsNullOrWhiteSpace(dto.MobileNumber))
+                customer.MobileNumber = dto.MobileNumber;
+
+            if (!string.IsNullOrWhiteSpace(dto.EmailId))
+                customer.EmailId = dto.EmailId;
+
+            if (!string.IsNullOrWhiteSpace(dto.Address))
+                customer.Address = dto.Address;
+
+            if (!string.IsNullOrWhiteSpace(dto.City))
+                customer.City = dto.City;
+
+            if (!string.IsNullOrWhiteSpace(dto.Pincode))
+                customer.Pincode = dto.Pincode;
+
+            if (!string.IsNullOrWhiteSpace(dto.State))
+                customer.State = dto.State;
+
+            customer.Modified = DateTime.UtcNow;
+
+            _context.Customers.Update(customer);
+            await _context.SaveChangesAsync(ct);
+
+            return Ok("Customer details updated successfully.");
         }
     }
 }
