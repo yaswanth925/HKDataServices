@@ -1,5 +1,6 @@
 ﻿using HKDataServices.Model;
 using HKDataServices.Model.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HKDataServices.Service
 {
@@ -9,6 +10,8 @@ namespace HKDataServices.Service
         Task<IEnumerable<Customers>> GetByMobileNumberAsync(string mobileNumber);
         Task<IEnumerable<Customers>> GetByEmailIdAsync(string emailId);
         Task CreateAsync(CustomersDto dto, CancellationToken ct);
-        Task<IEnumerable<object>> GetAllAsync(CancellationToken ct);
+        Task<List<CustomersDto>> GetAllAsync(CancellationToken ct);
+        Task UpdateAsync(CustomersDto dto, CancellationToken ct);
+        Task<IActionResult> PatchAsync(Guid id, CustomersPatchDto dto, CancellationToken ct);
     }
 }

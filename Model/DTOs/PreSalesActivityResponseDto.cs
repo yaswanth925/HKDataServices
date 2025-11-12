@@ -17,12 +17,12 @@ namespace HKDataServices.Model.DTOs
         public string? PoValue { get; set; }
 
         [Required]
-        public string? FileDataBase64 { get; set; }
-        public string? ImageFileBase64 { get; set; }
+        public Byte[]? FileData { get; set; }
+        public Byte[]? ImageFile { get; set; }
         public string? CreatedBy { get; set; }
-        public string? Created { get; set; }
+        public DateTime? Created { get; set; }
         public string? ModifiedBy { get; set; }
-        public string? Modified { get; set; }
+        public DateTime? Modified { get; set; }
 
     }
 }

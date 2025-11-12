@@ -2,7 +2,7 @@
 
 namespace HKDataServices.Model.DTOs
 {
-    public class UsersFormDto
+    public class UsersDto
     {
         [Required]
         public string FirstName { get; set; } = string.Empty;

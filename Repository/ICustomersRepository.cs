@@ -1,4 +1,6 @@
 ﻿using HKDataServices.Model;
+using HKDataServices.Model.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HKDataServices.Repository
 {
@@ -8,6 +10,6 @@ namespace HKDataServices.Repository
         Task<Customers?> GetByIdAsync(Guid id);
         Task CreateAsync(Customers entity);
         Task UpdateAsync(Customers entity);
-        
+        Task PatchAsync(Customers entity);
     }
 }

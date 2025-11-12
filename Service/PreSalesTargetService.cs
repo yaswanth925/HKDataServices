@@ -1,7 +1,7 @@
 ﻿using HKDataServices.Controllers.API;
 using HKDataServices.Model;
+using HKDataServices.Model.DTOs;
 using HKDataServices.Repository;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace HKDataServices.Service
@@ -10,22 +10,53 @@ namespace HKDataServices.Service
     {
         private readonly IPreSalesTargetRepository _repository;
         private readonly ApplicationDbContext? _context;
-        private ApplicationDbContext? context;
 
-        public PreSalesTargetService(IPreSalesTargetRepository repository)
+        public PreSalesTargetService(IPreSalesTargetRepository repository, ApplicationDbContext context)
         {
             _repository = repository;
             _context = context;
         }
 
-        public async Task<IEnumerable<PreSalesTarget>> GetAllAsync()
+        public async Task<IEnumerable<PreSalesTargetDto>> GetAllAsync(CancellationToken ct)
         {
-            return await _repository.GetAllAsync();
-        }
+            var entities = await _repository.GetAllAsync(ct);
 
-        public async Task<PreSalesTarget> GetByEmployeeNameAsync(string employeeName)
+            return entities.Select(e => new PreSalesTargetDto
+            {
+                TargetID = e.TargetID,
+                EmployeeName = e.EmployeeName,
+                MonthYear = e.MonthYear,
+                TargetYear = e.TargetYear,
+                PreSalesVisit = e.PreSalesVisit,
+                PreSalesActivity = e.PreSalesActivity,
+                PostSalesService = e.PostSalesService,
+                CreatedBy = e.CreatedBy,
+                Created = e.Created,
+                ModifiedBy = e.ModifiedBy,
+                Modified = e.Modified
+            });
+        }
+        
+
+        public async Task<PreSalesTargetResponseDto> GetByEmployeeNameAsync(string employeeName, CancellationToken ct)
         {
-            return await _repository.GetByEmployeeNameAsync(employeeName);
+            var e = await _repository.GetByEmployeeNameAsync(employeeName, ct);
+            if (e == null) return null;
+
+            return new PreSalesTargetResponseDto
+            {
+                TargetID = e.TargetID,
+                EmployeeName = e.EmployeeName,
+                MonthYear = e.MonthYear,
+                TargetYear = e.TargetYear,
+                PreSalesVisit = e.PreSalesVisit,
+                PreSalesActivity = e.PreSalesActivity,
+                PostSalesService = e.PostSalesService,
+                CreatedBy = e.CreatedBy,
+                Created = e.Created,
+                ModifiedBy = e.ModifiedBy,
+                Modified = e.Modified
+            };
         }
 
         public async Task AddAsync(PreSalesTarget entity)

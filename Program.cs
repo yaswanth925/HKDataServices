@@ -72,6 +72,8 @@ builder.Services.AddScoped<IPostSalesServiceRepository, PostSalesServiceReposito
 builder.Services.AddScoped<IPostSalesServiceService, PostSalesServiceService>();
 builder.Services.AddScoped<IPreSalesTargetListRepository, PreSalesTargetListRepository>();
 builder.Services.AddScoped<IPreSalesTargetListService, PreSalesTargetListService>();
+builder.Services.AddScoped<IAccountsRepository, AccountsRepository>();
+builder.Services.AddScoped<IAccountsService, AccountsService>();
 // ---------------- FluentValidation ----------------
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
@@ -81,7 +83,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<PreSalesTargetDtoValidator>
 builder.Services.AddValidatorsFromAssemblyContaining<CustomersDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<PreSalesActivityDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<PostSalesServiceDtoValidator>();
-//builder.Services.AddValidatorsFromAssemblyContaining<PreSalesTargetListDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<AccountsDtoValidator>();
 ValidatorOptions.Global.LanguageManager.Enabled = true;
 ValidatorOptions.Global.LanguageManager.Culture = new System.Globalization.CultureInfo("en");
 

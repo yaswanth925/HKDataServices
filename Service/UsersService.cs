@@ -4,30 +4,33 @@ using HKDataServices.Model.DTOs;
 using HKDataServices.Repository;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace HKDataServices.Service
 {
     public class UsersService : IUsersService
     {
         private readonly IUsersRepository _repo;
-        private readonly IValidator<UsersFormDto> _validator;
+        private readonly IValidator<UsersDto> _validator;
         private readonly ILogger<UsersService> _logger;
 
-        public UsersService(IUsersRepository repo, IValidator<UsersFormDto> validator, ILogger<UsersService> logger)
+        public UsersService(
+            IUsersRepository repo,
+            IValidator<UsersDto> validator,
+            ILogger<UsersService> logger)
         {
             _repo = repo ?? throw new ArgumentNullException(nameof(repo));
             _validator = validator ?? throw new ArgumentNullException(nameof(validator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<UsersResponseDto> CreateUsersAsync(UsersFormDto dto, CancellationToken ct = default)
+        public async Task<UsersResponseDto> CreateUsersAsync(UsersDto dto, CancellationToken ct = default)
         {
             if (dto is null)
             {
-                _logger.LogError("Received null UsersFormDto in CreateUsersAsync");
+                _logger.LogError("Received null UsersDto in CreateUsersAsync");
                 throw new ArgumentNullException(nameof(dto));
             }
 
+            
             var validationResult = await _validator.ValidateAsync(dto, ct);
             if (!validationResult.IsValid)
             {
@@ -43,8 +46,9 @@ namespace HKDataServices.Service
             dto.FirstName = dto.FirstName?.Trim();
             dto.LastName = dto.LastName?.Trim();
 
+            
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
-
+            
             var entity = new Users
             {
                 UserID = Guid.NewGuid(),
@@ -52,7 +56,7 @@ namespace HKDataServices.Service
                 LastName = dto.LastName,
                 MobileNumber = dto.MobileNumber,
                 EmailID = dto.EmailID,
-                Password = hashedPassword, 
+                Password = hashedPassword,
                 CreatedBy = dto.CreatedBy,
                 Created = DateTime.UtcNow,
                 ModifiedBy = dto.CreatedBy,
@@ -103,14 +107,20 @@ namespace HKDataServices.Service
             }
         }
 
-        public Task<Users?> GetByEmailIDAsync(string EmailID, CancellationToken ct = default)
+        public async Task<Users?> GetByEmailIDAsync(string emailID, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(emailID))
+                throw new ArgumentException("Email ID cannot be empty.", nameof(emailID));
+
+            return await _repo.GetByEmailIDAsync(emailID, ct);
         }
 
-        public Task<Users?> GetByMobileNumberAsync(string MobileNumber, CancellationToken ct = default)
+        public async Task<Users?> GetByMobileNumberAsync(string mobileNumber, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(mobileNumber))
+                throw new ArgumentException("Mobile number cannot be empty.", nameof(mobileNumber));
+
+            return await _repo.GetByMobileNumberAsync(mobileNumber, ct);
         }
     }
 }

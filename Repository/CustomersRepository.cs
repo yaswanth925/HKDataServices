@@ -31,5 +31,14 @@ namespace HKDataServices.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task PatchAsync(Customers entity)
+        {
+            var existingEntity = await _context.Customers.FindAsync(entity.CustomerID);
+            if (existingEntity != null)
+            {
+                _context.Entry(existingEntity).CurrentValues.SetValues(entity);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

@@ -32,16 +32,17 @@ namespace HKDataServices.Service
                 Modified = e.Modified
             });
         }
-        public async Task<PostSalesServiceDto?> GetByIdAsync(Guid id, CancellationToken ct)
+        public async Task<PostSalesServiceResponseDto?> GetByIdAsync(Guid id, CancellationToken ct)
         {
             var e = await _repo.GetByIdAsync(id, ct);
             if (e == null) return null;
 
-            return new PostSalesServiceDto
+            return new PostSalesServiceResponseDto
             {
                 ServiceID = e.ServiceID,
                 CustomerID = e.CustomerID,              
-                Description = e.Description,               
+                Description = e.Description,
+                ImageFile   = e.ImageFile,
                 CreatedBy = e.CreatedBy,
                 Created = e.Created,
                 ModifiedBy = e.ModifiedBy,
@@ -96,10 +97,28 @@ namespace HKDataServices.Service
 
         }
 
-        Task<PostSalesServiceDto?> IPostSalesServiceService.GetByIdAsync(Guid id, CancellationToken ct)
+        public async Task<PostSalesServiceResponseDto?> GetByServiceIdAsync(Guid serviceid, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            if (serviceid == Guid.Empty)
+                throw new ArgumentException("Invalid ID value.", nameof(serviceid));
+
+            var entity = await _repo.GetByIdAsync(serviceid, ct);
+
+            if (entity == null)
+                return null;
+
+            return new PostSalesServiceResponseDto
+            {
+                ServiceID = entity.ServiceID,
+                CustomerID = entity.CustomerID,
+                Description = entity.Description,
+                CreatedBy = entity.CreatedBy,
+                Created = entity.Created,
+                ModifiedBy = entity.ModifiedBy,
+                Modified = entity.Modified,
+            };
         }
+
 
         public Task<bool> UpdateAsync(Guid id, PostSalesServiceDto dto, CancellationToken ct)
         {
