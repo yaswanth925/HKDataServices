@@ -118,7 +118,7 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
     [HttpPost]
     [ProducesResponseType(typeof(UpdateTrackingStatusResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Post([FromForm] UpdateTrackingStatusFormDto form, CancellationToken ct)
+    public async Task<IActionResult> Post([FromForm] UpdateTrackingStatusDto form, CancellationToken ct)
     {
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
 
@@ -139,7 +139,7 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
     [ProducesResponseType(typeof(UpdateTrackingStatusResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Put(string awbNumber, [FromForm] UpdateTrackingStatusUpdateDto dto, CancellationToken ct)
+    public async Task<IActionResult> Put(string awbNumber, [FromForm] UpdateTrackingStatusDto dto, CancellationToken ct)
     {
         if (string.IsNullOrWhiteSpace(awbNumber)) return BadRequest("AWB number is required.");
         if (!ModelState.IsValid) return ValidationProblem(ModelState);
@@ -168,7 +168,7 @@ public class UpdateTrackingStatusController(IUpdateTrackingStatusService service
     [ProducesResponseType(typeof(UpdateTrackingStatusResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Put(Guid id, [FromForm] UpdateTrackingStatusUpdateDto dto, CancellationToken ct)
+    public async Task<IActionResult> Put(Guid id, [FromForm] UpdateTrackingStatusDto dto, CancellationToken ct)
     {
         if (id == Guid.Empty)
             return BadRequest("ID is required.");

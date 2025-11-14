@@ -7,7 +7,7 @@ namespace HKDataServices.Service;
 public class UpdateTrackingStatusService(IUpdateTrackingStatusRepository repo) : IUpdateTrackingStatusService
 {
 
-    public async Task<UpdateTrackingStatus> CreateAsync(UpdateTrackingStatusFormDto dto, CancellationToken ct = default)
+    public async Task<UpdateTrackingStatus> CreateAsync(UpdateTrackingStatusDto dto, CancellationToken ct = default)
     {
         if (dto is null) throw new ArgumentNullException(nameof(dto));
         if (dto.FileData is null || dto.FileData.Length == 0)
@@ -63,12 +63,12 @@ public class UpdateTrackingStatusService(IUpdateTrackingStatusRepository repo) :
         return repo.GetByDateRangeAsync(startDate, endDate, ct);
     }
 
-    public Task<UpdateTrackingStatus?> UpdateAsync(Guid id, UpdateTrackingStatusUpdateDto dto, CancellationToken ct = default)
+    public Task<UpdateTrackingStatus?> UpdateAsync(Guid id, UpdateTrackingStatusDto dto, CancellationToken ct = default)
     {
         throw new NotImplementedException();
     }
 
-    public Task<UpdateTrackingStatus?> UpdateAsync(string awbNumber, UpdateTrackingStatusUpdateDto dto, CancellationToken ct = default)
+    public Task<UpdateTrackingStatus?> UpdateAsync(string awbNumber, UpdateTrackingStatusDto dto, CancellationToken ct = default)
     {
         throw new NotImplementedException();
     }

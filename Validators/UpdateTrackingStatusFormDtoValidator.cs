@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace HKDataServices.Validators
 {
-    public class UpdateTrackingStatusFormDtoValidator : AbstractValidator<UpdateTrackingStatusFormDto>
+    public class UpdateTrackingStatusFormDtoValidator : AbstractValidator<UpdateTrackingStatusDto>
     {
         private readonly ValidationMessages _messages;
 
