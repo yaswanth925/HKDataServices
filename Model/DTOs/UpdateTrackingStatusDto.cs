@@ -2,7 +2,7 @@
 
 namespace HKDataServices.Model.DTOs
 {
-    public class UpdateTrackingStatusFormDto
+    public class UpdateTrackingStatusDto
     {
         [Required] public string AWBNumber { get; set; } = default!;
         [Required] public string StatusType { get; set; } = default!;
