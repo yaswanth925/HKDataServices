@@ -5,11 +5,11 @@ using Microsoft.Extensions.Options;
 
 namespace HKDataServices.Validators
 {
-    public class UpdateTrackingStatusFormDtoValidator : AbstractValidator<UpdateTrackingStatusDto>
+    public class UpdateTrackingStatusDtoValidator : AbstractValidator<UpdateTrackingStatusDto>
     {
         private readonly ValidationMessages _messages;
 
-        public UpdateTrackingStatusFormDtoValidator(IOptions<ValidationMessages> messagesAccessor)
+        public UpdateTrackingStatusDtoValidator(IOptions<ValidationMessages> messagesAccessor)
         {
             _messages = messagesAccessor?.Value ?? throw new ArgumentNullException(nameof(messagesAccessor));
 

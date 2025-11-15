@@ -34,7 +34,6 @@ namespace HKDataServices.Service
                 Created = e.Created,
                 ModifiedBy = e.ModifiedBy,
                 Modified = e.Modified,
-                FileBase64 = e.FileData != null ? Convert.ToBase64String(e.FileData) : null
             });
         }
 
@@ -60,7 +59,6 @@ namespace HKDataServices.Service
                 Created = e.Created,
                 ModifiedBy = e.ModifiedBy,
                 Modified = e.Modified,
-                FileBase64 = e.FileData != null ? Convert.ToBase64String(e.FileData) : null
             };
         }
 
@@ -86,7 +84,6 @@ namespace HKDataServices.Service
                 Created = e.Created,
                 ModifiedBy = e.ModifiedBy,
                 Modified = e.Modified,
-                FileBase64 = e.FileData != null ? Convert.ToBase64String(e.FileData) : null
             };
         }
 
@@ -126,7 +123,6 @@ namespace HKDataServices.Service
             await _repository.SaveChangesAsync(ct);
 
             dto.AccountID = entity.AccountID;
-            dto.FileBase64 = fileBytes != null ? Convert.ToBase64String(fileBytes) : null;
             return dto;
         }
 

@@ -78,7 +78,7 @@ builder.Services.AddScoped<IAccountsService, AccountsService>();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<UsersFormDtoValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<UpdateTrackingStatusFormDtoValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateTrackingStatusDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<PreSalesTargetDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CustomersDtoValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<PreSalesActivityDtoValidator>();

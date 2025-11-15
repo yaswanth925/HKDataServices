@@ -7,25 +7,24 @@ namespace HKDataServices.Model.DTOs
         public Guid AccountID { get; set; }
         [Required]
         public int DealerCode { get; set; }
-        [Required, MaxLength(255)]
+        [Required]
         public string DealerName { get; set; }
-        [Required, MaxLength(255)]
+        [Required]
         public string CustomerName { get; set; }
-        [Required, MaxLength(15)]
+        [Required]
         public string MobileNumber { get; set; }
-        [Required, MaxLength(50)]
+        [Required]
         public string GSTNumber { get; set; }
-        [Required, MaxLength(10)]
+        [Required]
         public string Pincode { get; set; }
-        [Required, MaxLength(50)]
+        [Required]
         public string City { get; set; }
-        [Required, MaxLength(50)]
+        [Required]
         public string State { get; set; }
         [Required]
         public int Sales { get; set; }
         public DateTime? Date { get; set; }
         public IFormFile? FileData { get; set; }
-        public string? FileBase64 { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? Created { get; set; }
         public string? ModifiedBy { get; set; }
