@@ -1,0 +1,4 @@
+root: Y:\Consolewaves\HKDataServices 
+path: C:\Program Files\nodejs 
+arch: 64 
+proxy: none
