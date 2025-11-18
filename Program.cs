@@ -15,7 +15,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-
+builder.Services.AddOpenApi();
 static string BuildConnectionString(IConfiguration config)
 {
     var mode = (config["Db:Mode"] ?? "Windows").Trim().ToLowerInvariant();

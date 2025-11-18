@@ -22,7 +22,7 @@ namespace HKDataServices.Service
         }
 
         public async Task<AuthResponseDto?> AuthenticateAsync(string? email, string? mobile, string password)
-{
+        {
           var user = await _repo.GetUserByEmailOrMobileAsync(email, mobile);
           if (user == null || !user.IsActive)
             return null;
