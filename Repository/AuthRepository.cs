@@ -49,32 +49,7 @@ namespace HKDataServices.Repository
             if (string.IsNullOrEmpty(value)) return false;
             var digits = value.Where(char.IsDigit).Count();
             return digits == value.Length && digits >= 6 && digits <= 15;
-        }
-
-        public Task IncrementFailedAttemptsAsync(object id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task LockAccountAsync(Guid userId, DateTimeOffset lockoutEnd)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task ResetFailedAttemptsAsync(object id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task RresetFailedAttemptAsync(Guid iD)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdatePasswordAsync(Guid iD)
-        {
-            throw new NotImplementedException();
-        }
+        }        
 
         public async Task<bool> UpdatePasswordAsync(string username, string newPassword)
         {
